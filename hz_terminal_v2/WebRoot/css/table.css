@@ -1,0 +1,7 @@
+/*7-22*/
+.sp-table { border-left:1px solid #B9CDE3;border-top:1px solid #B9CDE3;}
+.sp-table td{ height:24px; padding:8px 5px;border-right:1px solid #B9CDE3;border-bottom:1px solid #B9CDE3;}
+.sp-table .sp-td1{ background:#F1F7FF; color:#5E74AF; font-weight:bold;border-right:1px solid #B9CDE3; width:120px; text-align:right;font-size:12px;}
+.sp-table tr td input{ width:90%;}
+
+/*7-22*/

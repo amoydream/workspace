@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd">
+	<context:property-placeholder location="classpath:system.properties" />
+	<context:component-scan base-package="com.lauvan">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:ignoreResourceNotFound="true" p:ignoreUnresolvablePlaceholders="false"
+		p:locations="#{'classpath:system.properties'}">
+	</bean>
+	<util:properties id="config" location="classpath:system.properties" />
+	<bean id="meipServiceLocator" class="com.lauvan.meip.client.ServiceLocator" scope="singleton" lazy-init="true">
+		<constructor-arg index="0">
+			<value>${meip.serviceUrl}</value>
+		</constructor-arg>
+	</bean>
+	<bean id="meipService" factory-bean="meipServiceLocator" factory-method="getMeipServiceImplPort" scope="singleton" />
+	
+	<bean id="tifConvertServiceLocator" class="com.lauvan.tifconvert.TifConvertServiceLocator" scope="singleton" lazy-init="true">
+		<constructor-arg index="0">
+			<value>${tifconvert.serviceUrl}</value>
+		</constructor-arg>
+	</bean>
+	<bean id="tifConvertor" factory-bean="tifConvertServiceLocator" factory-method="getTifConvertorImplPort" scope="singleton" />
+
+	<!-- mysql数据源配置 -->
+	<bean id="mysqlDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+		destroy-method="close">
+		<!-- 驱动名称 -->
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<!-- JDBC连接串 -->
+		<property name="url" value="${jdbc.url}" />
+		<!-- 数据库用户名称 -->
+		<property name="username" value="${jdbc.username}" />
+		<!-- 数据库密码 -->
+		<property name="password" value="${jdbc.password}" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<!-- 初始化大小 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${jdbc.minIdle}" />
+		<!-- 逐出连接的检测时间间隔 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+		<!-- 最小逐出时间 -->
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+		<!-- 测试有效用的SQL Query -->
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+		<!-- 连接空闲时测试是否有效 -->
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+		<!-- 获取连接时测试是否有效 -->
+		<property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+		<!-- 归还连接时是否测试有效 -->
+		<property name="testOnReturn" value="${jdbc.testOnReturn}" />
+	</bean>
+
+	<!-- 整合mysqljpa -->
+	<bean id="mysqlEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="mysqlDataSource"></property>
+		<property name="packagesToScan" value="com.lauvan.*.entity"></property>
+		<property name="persistenceUnitName" value="mysqldb"></property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true"></property>
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.connection.pool_size">${hibernate.connection.pool_size}</prop>
+				<!--设置外连接抓取树的最大深度 -->
+				<prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+				<!-- 自动建表类型 validate|create|create-drop|update -->
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<!-- 是否显示SQL -->
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<!-- 显示SQL是否格式化 -->
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<!-- 关闭二级缓存 -->
+				<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+				<!-- 关闭实体字段映射校验 -->
+				<prop key="javax.persistence.validation.mode">${javax.persistence.validation.mode}</prop>
+			</props>
+
+
+		</property>
+	</bean>
+	<bean id="mysqltransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="mysqlEntityManagerFactory" />
+		<qualifier value="mysqlEM" />
+	</bean>
+	<tx:annotation-driven transaction-manager="mysqltransactionManager"
+		proxy-target-class="false" />
+
+</beans>

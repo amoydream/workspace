@@ -1,0 +1,146 @@
+ul.messenger-theme-ice .messenger-message .messenger-header {
+	height : 30px;
+	background-color: blue;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-footer {
+	height : 30px;
+	background-color: blue;
+}
+
+ul.messenger-theme-ice {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+ul.messenger-theme-ice .messenger-message {
+	border: 0px;
+	background-image:url("bg_messenger.png");
+	background-repeat:repeat-x;
+	position: relative;
+	margin-bottom: 1em;
+	font-size: 14px;
+	color: #000000;
+	padding: 8px 8px;
+}
+
+ul.messenger-theme-ice .messenger-content {
+	font-size: 16px;
+	padding-top: 1px;
+}
+
+ul.messenger-theme-ice .messenger-content a {
+	color: blue;
+	text-decoration: none;
+}
+
+ul.messenger-theme-ice .messenger-content a:hover {
+	color: purple;
+	text-decoration: underline;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-close {
+	position: absolute;
+	top: 0px;
+	right: 2px;
+	color: #ffffff;
+	opacity: 1;
+	display: block;
+	font-size: 28px;
+	line-height: 20px;
+	padding: 5px;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	-webkit-appearance: none;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-close:hover {
+	color: #444;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-close:active {
+	color: #222;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-actions {
+	float: right;
+	margin-top: 15px;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-actions a {
+	-moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.05);
+	-webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.05);
+	box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.05);
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	position: relative;
+	text-decoration: none;
+	display: inline-block;
+	padding: 10px;
+	color: #000000;
+	margin-right: 10px;
+	padding: 3px 10px 5px;
+	text-transform: capitalize;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-actions a:hover, ul.messenger-theme-ice .messenger-message .messenger-actions a:active {
+	-moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 2px #aaa;
+	-webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 2px #aaa;
+	box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 2px #aaa;
+	color: #444;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-actions a:active {
+	-moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 1px #aaa;
+	-webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 1px #aaa;
+	box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px rgba(255, 255, 255, 0.15), 0 1px #aaa;
+	top: 1px;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-actions .messenger-phrase {
+	display: none;
+}
+
+ul.messenger-theme-ice .messenger-message .messenger-message-inner:before {
+	display: block;
+	z-index: 20;
+	font-weight: bold;
+	color: #ffffff;
+	margin-bottom: 10px;
+}
+
+ul.messenger-theme-ice .messenger-message.alert-success .messenger-message-inner:before {
+	content: "成功";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-error .messenger-message-inner:before {
+	content: "错误";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-info .messenger-message-inner:before {
+	content: "消息";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-message .messenger-message-inner:before {
+	content: "短信消息";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-faxrecv .messenger-message-inner:before {
+	content: "传真消息";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-faxsend .messenger-message-inner:before {
+	content: "传真正在发送, 请勿刷新页面或关闭浏览器";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-faxsent .messenger-message-inner:before {
+	content: "传真发送完毕";
+}
+
+ul.messenger-theme-ice .messenger-message.alert-callin .messenger-message-inner:before {
+	content: "来电信息";
+}

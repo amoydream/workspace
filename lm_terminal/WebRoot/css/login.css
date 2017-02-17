@@ -1,0 +1,99 @@
+body {
+	background-image:url(../images/login/bg.jpg);
+	background-repeat: no-repeat;
+	background-size:100% 500%;
+	overflow: hidden;
+    font-family:Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+    font-size: 16px;
+    text-align: center;
+}
+
+a, a:hover, a:focus {
+	text-decoration: none;
+    -o-transition: all .3s; 
+    -moz-transition: all .3s; 
+    -webkit-transition: all .3s; 
+    -ms-transition: all .3s; 
+    transition: all .3s;
+}
+
+/*表单优化*/
+
+.form-box{
+	background:#d8d7d7;
+	-moz-border-radius: 6px 6px 6px 6px; -webkit-border-radius: 6px 6px 6px 6px; border-radius: 6px 6px 6px 6px;
+}
+.arrow{
+  border-width: 10px;
+  margin-top: 60px;
+  border-style: solid;
+  border-color: transparent #d8d7d7 transparent  transparent;
+}
+
+.form-top h2,.btn{
+	font-family: '方正兰亭超细黑简体','Microsoft YaHei ';
+	color: #454442;
+	font-weight: bold;
+}
+
+.form-bottom span{
+	color: #a6a5a5;
+	padding-left: 20px;
+}
+
+.form-group input{
+    padding-left:30px;
+}
+/*错误提示error-alert*/
+.form-group a{
+	padding: 5px;
+}
+
+
+
+.form-control-feedback{
+	left: 0;
+}
+
+/*登录按钮login-button效果优化*/
+.btn{
+	background-color: #39809f;
+	color: #d8d7d7;
+	width: 100%;
+	font-size: 14px;
+	text-align: center;
+	line-height: 15px;
+}
+.btn:hover{
+	background-color: #f0df98;
+}
+
+
+
+::-moz-selection { background: #39809f; color: #fff; text-shadow: none; }
+::selection { background: #39809f; color: #fff; text-shadow: none; }
+
+
+
+@media(max-width: 998px){
+	h2{font-size: 25px;}
+}
+@media(max-width: 768px){
+	.form-box{width: 80%;margin-left: 10%;}
+}
+
+
+@media (max-width: 415px) {
+	
+	h1, h2 { font-size: 20px; }
+
+}
+
+@media(max-height: 500px){
+	h2{font-size: 20px;}
+	label,span,input,a,button{font-size: 12px;}
+}
+@media(max-height:360px){
+	h2{font-size: 15px;}
+	label,span,input,a,button{font-size: 8px;}
+}
