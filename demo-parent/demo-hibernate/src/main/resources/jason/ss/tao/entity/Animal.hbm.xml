@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+    <!-- 一张表 -->
+	<!--  lazy="true"，load不支持多态查询， lazy="false"则支持， 相当于get -->
+	<!-- <class name="Animal" lazy="false">
+		<id name="id" column="ANIMAL_ID">
+			<generator class="native" />
+		</id>
+		<discriminator column="TYPE" type="string" length="20" />
+		<property name="name" length="20" not-null="true" />
+		<subclass name="Dog" discriminator-value="DOG">
+			<property name="weight" />
+		</subclass>
+		<subclass name="Cat" discriminator-value="CAT">
+			<property name="color" length="10"/>
+		</subclass>
+	</class> -->
+	
+	<!-- 每个类一张表（父类和子类） -->
+	<!-- <class name="Animal">
+		<id name="id" column="ANIMAL_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" not-null="true" />
+		<joined-subclass name="Dog">
+			<key column="DOG_ID" />
+			<property name="weight" />
+		</joined-subclass>
+		<joined-subclass name="Cat">
+			<key column="CAT_ID" />
+			<property name="color" length="10" />
+		</joined-subclass>
+	</class> -->
+
+	<!-- 每个子类一张表, abstract="true": 不生成父类映射表 -->
+	<class name="Animal" abstract="true">
+		<id name="id" column="ANIMAL_ID">
+			<!-- mysql 不能使用native和identity策略， 因为会有重复id -->
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" not-null="true" />
+		<union-subclass name="Dog">
+			<property name="weight" />
+		</union-subclass>
+		<union-subclass name="Cat">
+			<property name="color" length="10" />
+		</union-subclass>
+	</class>
+</hibernate-mapping>

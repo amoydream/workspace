@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>呼叫中心</title>
+<link rel="stylesheet" type="text/css" href="css/ccms.css">
+<script src="js/jquery-3.1.1.js" type="text/javascript"></script>
+<script src="js/jquery-extends.js" type="text/javascript"></script>
+<script src="js/ccms-const.js" type="text/javascript"></script>
+<script src="js/ccms-conf.js" type="text/javascript"></script>
+<script src="js/ccms-utils.js" type="text/javascript"></script>
+<script src="js/ccms-api.js" type="text/javascript"></script>
+<script src="js/ccms-websocket.js" type="text/javascript"></script>
+<script src="js/ccms-timer.js" type="text/javascript"></script>
+<script src="js/ccms-app.js" type="text/javascript"></script>
+<script src="js/ccms-fax.js" type="text/javascript"></script>
+<script src="js/ccms-call.js" type="text/javascript"></script>
+<script src="js/ccms-console.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="ccms">
+		<div class="main">
+			<fieldset class="label">
+				<legend>系统通信</legend>
+				<li>
+					<label class="label">服务地址: </label>
+					<input class="text " id="host" value='172.12.10.101' />
+					<label class="label"> 服务端口: </label>
+					<input class="text " id="port" value='8600' />
+				</li>
+				<li>
+					<label class="label">连接密码: </label>
+					<input class="text " id="connPwd" value='' />
+					<label class="label">坐席编号: </label>
+					<input class="text " id="seatID" value='8801' />
+				</li>
+				<li>
+					<button id="btn_debugMode" class="button">调试模式</button>
+					<button id="btn_confirmMode" class="button">询问模式</button>
+					<button id="btn_silentMode" class="button">安静模式</button>
+					<button id="btn_keepLogin" class="button">保持登录</button>
+					<button id="btn_open" class="button">开通服务</button>
+				</li>
+				<li>
+					<button id="btn_setACDMH" class="button">同时响铃</button>
+					<button id="btn_setACDMC" class="button">排队轮询</button>
+					<button id="btn_setIVRMEM" class="button">工作时间</button>
+					<button id="btn_setIVRMEM2" class="button">下班时间</button>
+					<button id="btn_close" class="button">关闭服务</button>
+				</li>
+			</fieldset>
+			<fieldset class="label">
+				<legend>坐席操作</legend>
+				<li>
+					<label class="label">用户编号: </label>
+					<input class="text " id="userID" value='tao' />
+					<label class="label">技能组号: </label>
+					<select id="sel_ugrpNO" class="select">
+						<option value="1">技能组一</option>
+						<option value="2">技能组二</option>
+					</select>
+				</li>
+				<li>
+					<label class="label">操作权限: </label>
+					<select id="sel_opLevel" class="select">
+						<option value="1">操作权限一</option>
+						<option value="2">操作权限二</option>
+						<option value="3">操作权限三</option>
+						<option value="4">操作权限四</option>
+						<option selected="selected" value="5">操作权限五</option>
+						<option value="6">操作权限六</option>
+						<option value="7">操作权限七</option>
+						<option value="8">操作权限八</option>
+						<option value="9">操作权限九</option>
+					</select>
+					<label class="label">拨打权限: </label>
+					<select id="sel_callLevel" class="select">
+						<option value="1">拨打权限一</option>
+						<option value="2">拨打权限二</option>
+						<option value="3">拨打权限三</option>
+						<option value="4">拨打权限四</option>
+						<option selected="selected" value="5">拨打权限五</option>
+						<option value="6">拨打权限六</option>
+						<option value="7">拨打权限七</option>
+						<option value="8">拨打权限八</option>
+						<option value="9">拨打权限九</option>
+					</select>
+				</li>
+				<li>
+					<button id="btn_login" class="button">坐席签入</button>
+					<button id="btn_logout" class="button">坐席签退</button>
+					<button id="btn_setBusy" class="button">坐席示忙</button>
+					<button id="btn_setFree" class="button">坐席示闲</button>
+					<button id="btn_hangUp" class="button">坐席挂机</button>
+				</li>
+			</fieldset>
+			<fieldset class="label">
+				<legend>综合通讯</legend>
+				<li>
+					<label class="label">呼出号码: </label>
+					<input class="text " id="tel_number" value='' />
+					<label class="label">来电号码: </label>
+					<input class="text " id="telinNo" />
+				</li>
+				<li>
+					<label class="label">传真号码: </label>
+					<input class="text " id="fax_number" value='' />
+					<label class="label">传真文件: </label>
+					<input class="text " id="faxFile" value='_FAX_TEST.tif' />
+				</li>
+				<li>
+					<label class="label">语音编号: </label>
+					<input class="text " id="CALLVOCNO" />
+					<label class="label">IVR 编号: </label>
+					<input class="text " id="IVRID" value='1' />
+				</li>
+				<li>
+					<button id="btn_call" class="button">坐席呼出</button>
+					<button id="btn_reCALL" class="button">回拨电话</button>
+					<button id="btn_hold" class="button">保持通话</button>
+					<button id="btn_meeting" class="button">电话会议</button>
+				</li>
+				<li>
+					<button id="btn_APIFAXS" class="button">确认发送</button>
+					<button id="btn_sendFAX" class="button">直接发送</button>
+					<button id="btn_recvFAX" class="button">接收传真</button>
+					<button id="btn_vocRePlay" class="button">语音回放</button>
+					<button id="btn_IVR" class="button">坐席 IVR</button>
+				</li>
+			</fieldset>
+			<fieldset class="label">
+				<legend>在线坐席</legend>
+				<li>
+					<button class="button" onclick="">话务员A</button>
+					<button class="button" onclick="">话务员B</button>
+					<button class="button" onclick="">话务员C</button>
+					<button class="button" onclick="">话务员D</button>
+				</li>
+				<hr>
+				<li>
+					<button class="button" onclick="">坐席监听</button>
+					<button class="button" onclick="">坐席插话</button>
+					<button class="button" onclick="">坐席拆话</button>
+					<button class="button" onclick="">坐席拦截</button>
+				</li>
+			</fieldset>
+		</div>
+		<div class="console">
+			<fieldset class="label">
+				<legend>系统信息</legend>
+				<textarea rows="45" cols="68" id="console" ondblclick="this.value=''"></textarea>
+			</fieldset>
+		</div>
+	</div>
+</body>
+</html>

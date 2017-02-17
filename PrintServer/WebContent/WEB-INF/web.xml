@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<servlet>
+		<servlet-name>printservlet</servlet-name>
+		<servlet-class>com.lauvan.print.servlet.PrintServlet</servlet-class>
+		<init-param>
+			<param-name>wsdlLocation</param-name>
+			<param-value>http://19.88.25.21:7991/convprinserv?wsdl
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sourceFolder</param-name>
+			<param-value>\\19.88.25.21\mfax</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>printservlet</servlet-name>
+		<url-pattern>/print</url-pattern>
+	</servlet-mapping>
+</web-app>

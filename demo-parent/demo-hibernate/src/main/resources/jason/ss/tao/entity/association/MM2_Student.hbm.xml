@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity.association">
+	<class name="MM2_Student">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<set name="teachers" table="MM2_TEACHER_STUDENT" inverse="true">
+			<key column="STUDENT_ID" not-null="true" />
+			<many-to-many class="MM2_Teacher" column="TEACHER_ID" />
+		</set>
+	</class>
+</hibernate-mapping>

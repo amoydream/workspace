@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- JFinal Config -->
+	<filter>
+		<filter-name>jfinal</filter-name>
+		<filter-class>com.jfinal.core.JFinalFilter</filter-class>
+		<init-param>
+			<param-name>configClass</param-name>
+			<param-value>com.lauvan.config.JFWebConfig</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>jfinal</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- JFinal Config -->
+
+	<servlet>
+		<servlet-name>initModule</servlet-name>
+		<servlet-class>com.lauvan.init.initModuleServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- PageOffice Begin -->
+	<servlet>
+		<servlet-name>poserver</servlet-name>
+		<servlet-class>com.zhuozhengsoft.pageoffice.poserver.Server</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/poserver.zz</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/poserver.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/pageoffice.cab</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/popdf.cab</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/sealsetup.exe</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>poserver</servlet-name>
+		<url-pattern>/posetup.exe</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>adminseal</servlet-name>
+		<servlet-class>com.zhuozhengsoft.pageoffice.poserver.AdminSeal</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminseal</servlet-name>
+		<url-pattern>/adminseal.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>adminseal</servlet-name>
+		<url-pattern>/loginseal.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>adminseal</servlet-name>
+		<url-pattern>/sealimage.do</url-pattern>
+	</servlet-mapping>
+	<mime-mapping>
+		<extension>mht</extension>
+		<mime-type>message/rfc822</mime-type>
+	</mime-mapping>
+	<context-param>
+		<param-name>adminseal-password</param-name>
+		<param-value>111111</param-value>
+	</context-param>
+	<!--短信回执及回复监听 -->
+	<!-- <listener>
+		<listener-class>com.lauvan.listener.SmsListener</listener-class>
+		</listener> -->
+	<!--
+		<listener>
+		<listener-class>com.lauvan.listener.SessionListener</listener-class>
+		</listener>
+	-->
+	<!-- 邮件扫描发送监听 -->
+	<!--
+		<listener>
+		<listener-class>com.lauvan.listener.SendTaskListener</listener-class>
+		</listener>
+	-->
+	<!-- PageOffice Begin -->
+
+
+
+	<!-- 会话超时时间为30分钟 -->
+	<listener>
+		<listener-class>com.lauvan.listener.SessionListener</listener-class>
+	</listener>
+
+
+	<session-config>
+		<session-timeout>0</session-timeout>
+	</session-config>
+</web-app>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="Employee">
+		<id name="id" column="EMPLOYEE_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" unique="true" not-null="true" />
+		<component name="contact">
+			<property name="phone" length="11" />
+			<property name="email" length="50" />
+			<property name="address" length="128" />
+		</component>
+	</class>
+</hibernate-mapping>

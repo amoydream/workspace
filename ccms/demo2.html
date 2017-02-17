@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+<title>呼叫中心系统-移动端</title>
+<link rel="stylesheet" href="css/style.css">
+<script>
+	var socket;
+    var IsOCTI = false; // 启动服务（设置启动连接标志，断开可定时重新连接）
+    var isConn = false; // 已经联接(WebSocket connected) 
+    var ReSdMSG = ""; // 有待发消息（仅仅用于建立连接后立即发送验证信息）
+    var CTxTime = 0; // 断开次数计数
+    var CtTimer = 0; // 计时器运行次数计数
+    var Timeval = 10; // 定时间隔(秒)
+    var HdTimer; // 计时器HANDLE    
+
+    function connect() {
+	    var host = "ws://" + $("txtIPDZ").value + ":8600/"
+	    //var host = "ws://10.10.10.15:8600/"
+	    var EvtType = "";
+	    var RevMsgb = "";
+	    if(isConn) {
+		    AddLog("系统信息> WebSocket联接已建立，不允许重复联接！");
+		    return;
+	    };
+	    //
+	    socket = new WebSocket(host);
+	    try {
+		    socket.onopen = function(msg) {
+			    isConn = true;
+			    CtTimer = 0;
+			    $("txtTIMER").value = "（连接" + CtTimer * Timeval + "秒)(断开" + CTxTime + "次)";
+			    AddLog("系统信息> 连接服务器成功！(WebSocket IP:" + $("txtIPDZ").value + ")");
+			    if(ReSdMSG != "") // 建立连接后立即发送有待发消息（验证信息）
+				    try {
+					    socket.send(ReSdMSG);
+					    AddLog("系统信息> 重发消息成功（" + ReSdMSG + ")");
+				    } catch(e) {
+					    AddLog("系统信息> 重发消息失败（" + ReSdMSG + ")");
+				    }
+			    ReSdMSG = "";
+		    };
+
+		    socket.onmessage =
+		        function(msg) {
+			        if(typeof msg.data != "string") {
+				        AddLog("收到信息> 错误信息（非文本消息）");
+				        return;
+			        }
+
+			        RevMsgb = msg.data;
+			        AddLog("事件消息> " + RevMsgb);
+			        //
+			        var JsonOBJ = eval("(" + RevMsgb + ")");
+			        EvtType = JsonOBJ.Event;
+			        if(EvtType == "OnCallEnded") {
+				        // 电话结束事件：应用系统请在此处添加电话记录写入数据库操，作为客户历史电话记录并关联客户资料，以便于后续的电话查询和录音回放操作。
+				        AddLog('电话结束> 电话ID:' + JsonOBJ.CallID + ' 通道:' + JsonOBJ.ChannelNO + ' 被叫:' + JsonOBJ.CEID + ' 主叫:' + JsonOBJ.CCID + ' 录音号:' + JsonOBJ.CallVocNO + ' 总时:' +
+				            JsonOBJ.TotalTime + ' 等待:' + JsonOBJ.WaitTime + ' 联通:' + JsonOBJ.TalkTime + ' FAX:' + JsonOBJ.FAXST);
+				        if(JsonOBJ.CallVocNO != "0")
+					        $("txtVocNum").value = JsonOBJ.CallVocNO;
+			        } else if(EvtType == "OnCallIN") {
+				        // 当电话接入平台时通知应用系统，请在此处添加电话黑名单处理和来电特别处理操作内容（例如：挂断或者转接）
+				        AddLog('电话接入> 电话ID:' + JsonOBJ.CallID + ' 通道:' + JsonOBJ.ChannelNO + ' 被叫:' + JsonOBJ.CEID + ' 主叫:' + JsonOBJ.CCID);
+			        } else if(EvtType == "OnCallOUT") {
+				        AddLog('电话呼出> 电话ID:' + JsonOBJ.CallID + ' 通道:' + JsonOBJ.ChannelNO + ' 被叫:' + JsonOBJ.CEID + ' 主叫:' + JsonOBJ.CCID);
+			        } else if(EvtType == "OnUGRPStatus") {
+				        AddLog('技能组态> 组号:' + JsonOBJ.UGRPNO + ' 组名:' + JsonOBJ.UGRPName + ' 排队:' + JsonOBJ.ACDM + ' 设计数:' + JsonOBJ.SeatMaxNum + ' 开通数:' + JsonOBJ.SeatFreeNum);
+			        } else if(EvtType == "OnSeatLink") {
+				        // JsonOBJ.CaseNO: 事件子类：1.分转坐席（响铃）时, 2.坐席摘机时, 3.坐席未接时, 4.坐席结束时, 5.坐席外呼时。
+				        AddLog('电话分转> (CaseNO:' + JsonOBJ.CaseNO + ') 坐席ID:' + JsonOBJ.SeatID + ' 被叫号:' + JsonOBJ.CEID + ' 主叫号:' + JsonOBJ.CCID + ' 组:' + JsonOBJ.UGRPNO + ' 接线员:' +
+				            JsonOBJ.UserID + '-' + JsonOBJ.UserName);
+				        if($("txtSeatID").value = JsonOBJ.SeatID) {
+					        // 坐席电话分转事件：应用系统可根据该事件的来电主叫号码（CCID）从数据库中查找对应的客户信息和访问历史资料，并在对应坐席
+					        // 的关联电脑上弹出客户资料。坐席电话分转有多次子类事件，弹出时机可根据事件子类（CaseNo）选择：1.响铃时，2.摘机时。
+					        $("txtTelCCID").value = JsonOBJ.CCID;
+				        }
+			        } else if(EvtType == "OnSeatStatus") {
+				        // 坐席登录状态事件 JsonOBJ.CaseNO: 1.坐席签到 2. 坐席示闲 3. 坐席示忙 4. 坐席签退 5. 坐席状态
+				        AddLog('坐席状态> (CaseNO:' + JsonOBJ.CaseNO + ') 坐席ID:' + JsonOBJ.SeatID + ' 组:' + JsonOBJ.UGRPNO + ' 接线员:' + JsonOBJ.UserID + '-' + JsonOBJ.UserName +
+				            ' IP:' + JsonOBJ.SeatIP + ' TM:' + JsonOBJ.OpenTime + ' 状态' + JsonOBJ.SeatStatus + ']');
+
+			        } else if(EvtType == "SessionConnected") {
+				        AddLog("联接信息> " + msg.data);
+			        } else {
+				        AddLog("其他信息> (可根据应用系统的需要加入处理过程)" + msg.data);
+			        }
+		        };
+
+		    socket.onclose = function(msg) {
+			    //socket.close();
+			    //socket = null;
+			    CTxTime = CTxTime + 1;
+			    if(isConn)
+				    CtTimer = 0;
+			    $("txtTIMER").value = "（断开" + CtTimer * Timeval + "秒)(断开" + CTxTime + "次)";
+			    isConn = false;
+			    AddLog("系统信息> 连接断开!(IP:" + $("txtIPDZ").value + ")")
+		    };
+	    } catch(ex) {
+		    log(ex);
+	    }
+    };
+
+    function TimerStart() {
+	    CtTimer = CtTimer + 1;
+	    if(isConn) {
+		    $("txtTIMER").value = "（连接" + CtTimer * Timeval + "秒)(断开" + CTxTime + "次)";
+	    } else {
+		    $("txtTIMER").value = "（断开" + CtTimer * Timeval + "秒)(断开" + CTxTime + "次)";
+	    }
+	    if(HdTimer = null) {
+		    HdTimer = setTimeout("TimerStart()", Timeval * 1000);
+	    } else {
+		    clearTimeout(HdTimer);
+		    HdTimer = setTimeout("TimerStart()", Timeval * 1000);
+	    }
+	    if((!isConn) && (IsOCTI)) {
+		    AddLog("系统信息> 延时重新联接WebSocket(建立中)");
+		    CtiOpen(); // 此处不用connect()，因为重联时必须立即验证身份！;
+	    }
+    }
+
+    function TimerStop() {
+	    clearTimeout(HdTimer);
+	    HdTimer = null;
+	    $("txtTIMER").value = "（停止" + CtTimer * Timeval + "秒)(断开" + CTxTime + "次)";
+	    AddLog("系统信息> 延时停止TimerStop()");
+    }
+
+    function send(msg) {
+	    if(!isConn) {
+		    if(!IsOCTI) {
+			    AddLog("系统信息> 系统尚未建立联接，操作无效");
+			    return;
+		    }
+		    AddLog("系统信息> 正在建立联接(WebSocket)...)");
+		    if(socket != null) {
+			    socket.close();
+			    socket = null;
+		    }
+		    connect();
+		    ReSdMSG = msg; // 建立联接不能马上发送信息，发送操作转到socket.onopen完成！ 
+		    return;
+	    }
+	    socket.send(msg);
+    };
+
+    window.onload = function() {
+	    HdTimer = setTimeout("TimerStart()", Timeval * 1000); // 启动客户端定时器(30秒），用于WebSocket连接监控管理 
+	    CtTimer = 1;
+    }
+
+    window.onbeforeunload = function() {
+	    try {
+		    socket.close();
+		    socket = null;
+		    isConn = false;
+		    AddLog("系统信息> WebSocket unload!");
+	    } catch(ex) {
+		    AddLog("系统信息> ERROR IN onbeforeunload");
+	    }
+    };
+
+    function $(id) {
+	    return document.getElementById(id);
+    };
+
+    function AddLog(text) {
+	    var logText = document.getElementById('logText');
+	    if(logText.value.length > 4000)
+		    logText.value = "";
+	    logText.value += (text + '\r\n');
+    };
+
+    function onkey(event) {
+	    if(event.keyCode == 13) {
+		    send();
+	    }
+    };
+
+    function CtiOpen() {
+	    if(!("WebSocket" in window)) {
+		    alert("系统信息> 抱歉你的浏览器不支持WebSocket!(>=IE9)");
+		    return;
+	    }
+	    //int CtiOpen(String CTIIPAddr, String CTIPassword, String UID, String Param);
+	    IsOCTI = true;
+	    send("OPEN;" + $("txtIPDZ").value + ";" + $("txtPSWD").value + ";" + $("txtSeatID").value);
+    };
+
+    function CtiClose() {
+	    // int CtiClose();
+	    send("CLOSE;");
+	    IsOCTI = false;
+    };
+
+    function CtiSeatReCALL() {
+	    send("SEATCALL;" + $("txtSeatID").value + ";" + $("txtTelCCID").value + ";;;---");
+    };
+    // 以下为坐席相关接口
+    function CtiSeatLogin() {
+	    // int CtiSeatLogin(String SeatID, String USERID, String PASSWORD, int UGRPNO, int OpLevel,int CallLevel, String UserName);
+	    send("LOGIN;" + $("txtSeatID").value + ";" + $("txtUserID").value + ";;" + $("txtGroupNum").value + ";1;USERNAME;---");
+    };
+
+    function CtiSeatLogOut() {
+	    //int CtiSeatLOGOUT(String SeatID);
+	    send("LOGOUT;" + $("txtSeatID").value + ";---");
+    };
+
+    function CtiSeatSetBusy() {
+	    send("SETBUSY;" + $("txtSeatID").value + ";---");
+    };
+
+    function CtiSeatSetFree() {
+	    send("SETFREE;" + $("txtSeatID").value + ";---");
+    };
+
+    function CtiSeatCALL() {
+	    send("SEATCALL;" + $("txtSeatID").value + ";" + $("txtPhoneNum1").value + ";;;---");
+    };
+
+    function CtiSeatHold() {
+	    send("SEATHOLD;" + $("txtSeatID").value + ";;;---");
+    };
+
+    function CtiSeatSwitch() {
+	    send("SEATSWITCH;" + $("txtSeatID").value + ";;;---");
+    };
+
+    function CtiSeatLINK() {
+	    send("SEATLINK;" + $("txtSeatID").value + ";;;---");
+    };
+
+    function CtiSeatHangUP() {
+	    send("SEATHANGUP;" + $("txtSeatID").value + ";---");
+    };
+
+    function CtiSeatAPIex() //  API测试
+    {
+	    var ApisStr = "/FAXS/FAXR/MACD/VREC/VPLY/OTEL/VTTS/";
+	    var tempStr = $("txtSeatAPIID").value;
+	    var isApi = ApisStr.indexOf(tempStr);
+	    AddLog('XXXXXXXX> ' + tempStr + '/' + isApi);
+
+	    if(isApi > 0) {
+		    // 如果txtSeatAPIID输入API功能关键字值：FAXS:发送传真,FAXR:接收传真,MACD:转坐席组,VREC:留言录音，VPLY: 留言回放，OTEL:接转电话，VTTS:文字转语音回放。
+		    // 则调用：CtiSeatAPI(String SeatID, String APIID, String PreParm);
+		    send("SEATAPI;" + $("txtSeatID").value + ";" + $("txtSeatAPIID").value + ";" + $("txtSeatPrePARM").value + ";;;---");
+	    } else {
+		    // 如果txtSeatAPIID输入IVRID(流程节点号，数字值) 则调用：CtiSeatIVR(String SeatID, String IVRID, String PreParm);
+		    send("SEATIVR;" + $("txtSeatID").value + ";" + $("txtSeatAPIID").value + ";" + $("txtSeatPrePARM").value + ";;;---");
+	    }
+    };
+
+    // 以上为坐席相关接口
+
+    function CtiMakeCALLex() // 综合外呼 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";83916006;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiMeetingCALL() // 电话会议 int CtiMeetingCALL(String HostTeln, String MemberTels, String CallerID, String BussinessID);
+    {
+	    send("CTIMEETCALL;" + $("txtPhoneNum2").value + ";" + $("txtMemberTels").value + ";;;---");
+    };
+
+    function CtiIVRMEM() //流程控制 int CtiIVRMEM(int CallID, String IVRMEM );
+    {
+	    send("SETIVRMEM;0;" + $("txtIVRMEM").value + ";;;---");
+    };
+
+    function CtiCallIVRex() // 综合外呼->呼转_IVR int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "1";
+	    //$("txtCallPrePARM").value = "";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiCallMACD() // 综合外呼->转坐席组 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "MACD";
+	    $("txtCallPrePARM").value = "1";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiSendFAX() // 综合外呼->发送传真 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "FAXS";
+	    $("txtCallPrePARM").value = "test.tif";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiRecvFAX() // 综合外呼->接收传真 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "FAXR";
+	    $("txtCallPrePARM").value = "test.tif";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiVocVPLY() // 综合外呼->语音通知 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "VPLY";
+	    $("txtCallPrePARM").value = "test.WAV";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+
+    function CtiVocVTTS() // 综合外呼->文字语音 int CtiMakeCALLEX(String TelNum, String CallerID, String BussinessID, String APIID, String PreParm);
+    {
+	    $("txtCallAPIID").value = "VTTS";
+	    $("txtCallPrePARM").value = "这是文字转换语音，通过电话播放的测试";
+	    send("CTIMAKECALL;" + $("txtPhoneNum2").value + ";;;" + $("txtCallAPIID").value + ";" + $("txtCallPrePARM").value + ";;;---");
+    };
+</script>
+</head>
+<body>
+	<div id="adver">
+		<img src="img/adver.png" alt="">
+	</div>
+	<div id="sysinit">
+		<fieldset>
+			<legend>系统通信</legend>
+			<li>
+				服务器IP：
+				<input name="txtIPDZ" id="txtIPDZ" type="text" value='127.0.0.1' />
+				<button type="button" onClick="CtiOpen()">开通服务</button>
+			</li>
+			<li>
+				联接密码：
+				<input name="txtPSWD" id="txtPSWD" type="text" value='' />
+				<button type="button" onClick="CtiClose()">关闭服务</button>
+			</li>
+			<li>
+				坐席号ID：
+				<input name="txtSeatID" id="txtSeatID" type="text" value='8802' />
+				<button type="button" onClick="CtiPAGEEND()">退出演示</button>
+			</li>
+		</fieldset>
+	</div>
+	<div id="guestinit">
+		<fieldset>
+			<legend>客户信息</legend>
+			<li>
+				来电弹屏：
+				<input name="txtTelCCID" id="txtTelCCID" type="text" value='' />
+				<button type="button" onClick="CtiSeaTReCALL()">回拨客户</button>
+			</li>
+			<li>
+				计时标志：
+				<input name="txtTIMER" id="txtTIMER" type="text" value='' />
+				<button type="button" onClick="CtiSeatHangUP()">坐席挂机</button>
+			</li>
+		</fieldset>
+	</div>
+	<div id="callinit">
+		<fieldset>
+			<legend>坐席操作</legend>
+			<li>
+				呼出号码：
+				<input name="txtPhoneNum1" id="txtPhoneNum1" type="text" value='8801' />
+				<button type="button" onClick="CtiSeatCALL()">坐席外呼</button>
+			</li>
+			<li>
+				API//IVR：
+				<input name="txtSeatAPIID" id="txtSeatAPIID" type="text" value='1' />
+				<button type="button" onClick="CtiSeatAPIex()">API 测试</button>
+			</li>
+			<li>
+				API 参数：
+				<input name="txtSeatPrePARM" id="txtSeatPrePARM" type="text" value='' />
+				<button type="button" onClick="CtiSeatHold()">保持通话</button>
+			</li>
+			<li>
+				操作号ID：
+				<input name="txtUserID" id="txtUserID" type="text" value='1001' />
+				<button type="button" onClick="CtiSeatSwitch()">三方通话</button>
+			</li>
+			<li>
+				技能组号：
+				<input name="txtGroupNum" id="txtGroupNum" type="number" value='1' />
+				<button type="button" onClick="CtiSeatLINK()">三方会议</button>
+			</li>
+			<li>
+				<button type="button" onClick="CtiSeatLogin()">坐席签入</button>
+				<button type="button" onClick="CtiSeatLogOut()">坐席签退</button>
+				<button type="button" onClick="CtiSeatSetFree()">坐席示闲</button>
+				<button type="button" onClick="CtiSeatSetBusy()">坐席示忙</button>
+			</li>
+		</fieldset>
+	</div>
+	<div id="seatinit">
+		<fieldset>
+			<legend>电路管理</legend>
+			<li>
+				呼出号码：
+				<input name="txtPhoneNum2" id="txtPhoneNum2" type="text" value='83916006' />
+				<button type="button" onClick="CtiMakeCALLex()">综合外呼</button>
+			</li>
+			<li>
+				API//IVR：
+				<input name="txtCallAPIID" id="txtCallAPIID" type="text" value='1' />
+				<button type="button" onClick="CtiCallIVRex()">呼转 IVR</button>
+			</li>
+			<li>
+				API 参数：
+				<input name="txtCallPrePARM" id="txtCallPrePARM" type="text" value='' />
+				<button type="button" onClick="CtiCallMACD()">转坐席组</button>
+			</li>
+			<li>
+				参会号码：
+				<input name="txtMemberTels" id="txtMemberTels" type="text" value='8801,8803,13688843001' />
+				<button type="button" onClick="CtiMeetingCALL()">电话会议</button>
+			</li>
+			<li>
+				控制信息：
+				<input name="txtIVRMEM" id="txtIVRMEM" type="text" value='晚间流程,节假日流程' />
+				<button type="button" onClick="CtiIVRMEM()">流程控制</button>
+			</li>
+			<li>
+				<button type="button" onClick="CtiSendFAX()">发送传真</button>
+				<button type="button" onClick="CtiRecvFAX()">接收传真</button>
+				<button type="button" onClick="CtiVocVPLY()">语音通知</button>
+				<button type="button" onClick="CtiVocVTTS()">文字语音</button>
+			</li>
+		</fieldset>
+	</div>
+	<div class="dlog">
+		<fieldset>
+			<legend>系统信息区</legend>
+			<textarea name="logText" rows="100%" cols="100%" id="logText"></textarea>
+		</fieldset>
+	</div>
+</body>
+</html>

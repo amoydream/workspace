@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="Collections">
+		<id name="id" column="COLLECTIONS_ID">
+			<generator class="native" />
+		</id>
+		<list name="list" table="T_LIST">
+			<key column="LIST_ID" />
+			<!-- column="INDEX" 建表失败 -->
+			<list-index column="LIST_INDEX" />
+			<!-- 自定义类型 用composite-element映射 -->
+			<element column="LIST_VALUE" type="string" />
+		</list>
+		<array name="array" table="T_ARRAY">
+			<key column="ARRAY_ID" />
+			<!-- column="INDEX" 建表失败 -->
+			<list-index column="ARRAY_INDEX" />
+			<element column="ARRAY_VALUE" type="string" />
+		</array>
+		<set name="set" table="T_SET">
+			<key column="SET_ID" />
+			<element column="SET_VALUE" type="string" not-null="true" />
+		</set>
+		<map name="map" table="T_MAP">
+			<key column="MAP_ID" />
+			<map-key column="MAP_KEY" type="integer" />
+			<element column="MAP_VALUE" type="string" />
+		</map>
+	</class>
+</hibernate-mapping>

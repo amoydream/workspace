@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="Student">
+		<id name="id" column="STUDENT_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" not-null="true" />
+		<!-- 一对多双向关联，一对多单向关联则不需要配置many-to-one -->
+		<many-to-one name="Classes" column="CLASSES_ID" not-null="true"
+			cascade="save-update" />
+	</class>
+</hibernate-mapping>

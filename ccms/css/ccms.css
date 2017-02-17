@@ -1,0 +1,59 @@
+@CHARSET "UTF-8";
+
+.ccms {
+	width: 100%; max-width: 1280px; height : 100%;max-height:1024px; margin-left: 10px;
+}
+
+.ccms .main {
+	width: 40%; float: left; display: inline; float: left; margin-right: 5px;
+}
+
+.ccms .console {
+	display: inline; padding-top: 10px;
+}
+
+.ccms fieldset {
+	margin-top: 20px; border-left: inset; border-top: inset; border-left-width: 2px; border-top-width: 2px;
+	border-right-width: 1px; border-bottom-width: 1px; border-color: silver;
+}
+
+.ccms fieldset li {
+	margin-bottom: 10px; margin-left: 10px; vertical-align: middle;
+}
+
+.ccms .label {
+	text-shadow: 0.5px 0.5px #CCC;
+}
+
+.ccms .text {
+	margin-right: 3px; font-family: "Times New Roman", Times, serif; width: 140px; height: 18px; border-left: inset;
+	border-top: inset; border-left-width: 2px; border-top-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
+	border-color: silver;
+}
+
+.ccms .select {
+	margin-right: 3px; font-family: "Times New Roman", Times, serif; width: 145px; height: 23px; border-left: inset;
+	border-top: inset; border-left-width: 2px; border-top-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
+	border-color: silver;
+}
+
+.ccms textarea {
+	width:100%;
+	height:100%;
+	border-left: inset; border-top: inset; border-left-width: 2px; border-top-width: 2px; border-right-width: 1px;
+	border-bottom-width: 1px; border-color: silver;
+}
+
+.ccms .button {
+	width: 77px; height: 27px; border-radius: 2px; border: none; background-image: url(../asset/image/button.png);
+	background-repeat: no-repeat; margin-right: 3px;
+}
+
+.ccms .button-down {
+	width: 77px; height: 27px; border: none; border-radius: 2px; background-image: url(../asset/image/button-down.png);
+	background-repeat: no-repeat; margin-right: 3px;
+}
+
+.ccms .checkbox {
+	width: 15px; height: 15px; border-radius: 5px; border-bottom-color: gray;
+}

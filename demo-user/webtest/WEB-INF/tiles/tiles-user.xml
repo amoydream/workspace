@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC 
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="user/*" template="/layout/defaultLayout.jsp">
+		<put-attribute name="title" value="SC-USR-S-001" />
+		<put-attribute name="body" value="/WEB-INF/view/user/{1}.jsp" />
+	</definition>
+
+	<definition name="error/*" template="/layout/errorLayout.jsp">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="body" value="/error/{1}.jsp" />
+	</definition>
+</tiles-definitions>

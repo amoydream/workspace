@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="Classes">
+		<id name="id" column="CLASSES_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" unique="true" not-null="true" />
+		<!-- 在多对一单向关联关系中由“多”端维护关系 -->
+		<!-- inverse=true： 在多对一双向关联关系中“多”放弃维护权， 多对一单向关联关系中不需要配置此属性-->
+		<set name="students" inverse="true">
+			<!-- 在STUDENT表中添加字段CLASSES_ID，在Student中无需指定Classes属性 -->
+			<key column="CLASSES_ID" />
+			<one-to-many class="Student" />
+		</set>
+	</class>
+</hibernate-mapping>

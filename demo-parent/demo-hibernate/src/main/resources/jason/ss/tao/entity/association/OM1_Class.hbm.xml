@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity.association">
+	<class name="OM1_Class">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<set name="students">
+			<!-- 如果not-null='true'，则在删除OM1_Class记录时，如果存在OM1_Student关联到此记录将无法删除（完整性约束），否则可正常删除 -->
+			<key column="CLASS_ID" not-null="true"/>
+			<one-to-many class="OM1_Student" />
+		</set>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="User" table="T_USER">
+		<id name="id" column="USER_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" not-null="true" />
+		<property name="passwd" length="8" not-null="true" />
+		<property name="birthday" type="date" />
+		<property name="gender" length="1" not-null="true" />
+		<property name="address" length="255" />
+		<property name="phone" length="11" />
+		<property name="email" length="128" />
+	</class>
+</hibernate-mapping>

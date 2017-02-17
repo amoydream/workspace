@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity.association">
+	<class name="MO2_Class">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" />
+		<!-- inverse='true'表示放弃维护关系的能力，由‘多’端维护 -->
+		<set name="students" inverse="true">
+		<!-- column必须与MO2_Student.hbm.xml中的'<many-to-one name="clazz" column="CLASS_ID" />'一致 -->
+			<key column="CLASS_ID" />
+			<one-to-many class="MO2_Student" />
+		</set>
+	</class>
+</hibernate-mapping>

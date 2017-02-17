@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	
+	<class name="Person" table="PERSON">
+		<id name="id" column="PERSON_ID" >
+			<!-- 一对一主键关联  -->
+			<!-- <generator class="foreign">
+				<param name="property">idCard</param>
+			</generator> -->
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" not-null="true" />
+		<property name="birthday" type="date" />
+		<property name="registerDate" column="REGISTER_DATE" type="timestamp" />
+		<many-to-one name="Group" column="GROUP_ID" cascade="save-update" />
+		<!-- 一对一主键关联  -->
+		<!-- <one-to-one name="idCard" constrained="true" /> -->
+		<!-- 一对一唯一外键关联  （推荐， 可方便更改为many-to-one）-->
+		<many-to-one name="idCard" unique="true" column="CARD_ID" />
+	</class>
+</hibernate-mapping>

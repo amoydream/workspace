@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@redhat6:1521:demo</property>
+		<property name="hibernate.connection.username">demo</property>
+		<property name="hibernate.connection.password">demo</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		
+		<!-- <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://jason.ss.tao/demo</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property> 
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+		<property name="hibernate.connection.pool_size">1</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.hbm2ddl.auto">create-drop</property>
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/OO1PK_Husband.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OO1PK_Wife.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/OO1UFK_Husband.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OO1UFK_Wife.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/OO2PK_Husband.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OO2PK_Wife.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/OO2UFK_Husband.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OO2UFK_Wife.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/MO1_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/MO1_Class.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/MO2_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/MO2_Class.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/OM1_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OM1_Class.hbm.xml" /> -->
+		
+		<!-- <mapping resource="jason/ss/tao/entity/association/OM2_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/OM2_Class.hbm.xml" /> -->
+
+		<!-- <mapping resource="jason/ss/tao/entity/association/MM1_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/MM1_Teacher.hbm.xml" /> -->
+		
+		<mapping resource="jason/ss/tao/entity/association/MM2_Student.hbm.xml" />
+		<mapping resource="jason/ss/tao/entity/association/MM2_Teacher.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

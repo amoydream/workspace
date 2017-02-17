@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="Group" table="T_GROUP">
+		<id name="id" column="GROUP_ID">
+			<generator class="native" />
+		</id>
+		<property name="name" length="20" unique="true" not-null="true" />
+	</class>
+</hibernate-mapping>

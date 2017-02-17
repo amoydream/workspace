@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="jason.ss.tao.entity">
+	<class name="IdCard" table="ID_CARD">
+		<id name="id" column="CARD_ID">
+			<generator class="native" />
+		</id>
+		<property name="cardNo" column="CARD_NO" length="18" unique="true"
+			not-null="true" />
+		<!-- 一对一主键双向关联 -->
+		<!-- <one-to-one name="person" /> -->
+
+		<!-- 一对一唯一外键双向关联 -->
+		<one-to-one name="person" property-ref="idCard" />
+	</class>
+</hibernate-mapping>
