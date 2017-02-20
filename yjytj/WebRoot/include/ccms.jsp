@@ -29,7 +29,7 @@
 	            fax_number : '${CCMSET.FAX_NUMBER}',
 	            userID : '${loginModel.userAccount}',
 	            userName : '${loginModel.userName}',
-	            seatID : '${loginModel.seatID}',
+	            seatID : '${loginModel.seatID}'.split(',')[0],
 	            seatIDs : '${loginModel.seatID}',
 	            ugrpNO : '${loginModel.ugrpNO}',
 	            callLevel : '${loginModel.callLevel}',

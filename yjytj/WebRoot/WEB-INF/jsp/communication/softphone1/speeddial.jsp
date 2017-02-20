@@ -7,7 +7,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<%@ include file="/include/header.jsp"%>
+<%@ include file="/include/softphone.jsp"%> 
 <%
 PageOfficeCtrl poCtrl1 = new PageOfficeCtrl(request);  
 poCtrl1.setServerPage(basePath+"poserver.do"); //此行必须  

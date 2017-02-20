@@ -52,7 +52,7 @@ public class PermitInterceptor implements Interceptor {
 		}
 		String actionKey=ai.getActionKey();
 		
-		if(actionKey.equals("/Main") || actionKey.equals("/Main/getMenu") || actionKey.equals("/Main/menu")
+		if(actionKey.equals("/Main") || actionKey.equals("/Main/aioIndex") || actionKey.equals("/Main/getMenu") || actionKey.equals("/Main/menu")
 				|| actionKey.equals("/Main/pwordset") || actionKey.equals("/Main/pwordSave")
 				|| actionKey.equals("/Main/systemSet") || actionKey.equals("/Main/systemSetSave")|| actionKey.equals("/Login/logout")){
 			ai.invoke();

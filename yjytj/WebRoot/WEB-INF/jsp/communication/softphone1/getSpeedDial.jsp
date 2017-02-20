@@ -16,9 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="">
-<%@ include file="/include/header.jsp"%>
-<%@ include file="/include/ccms.jsp"%> 
+<%@ include file="/include/softphone.jsp"%> 
 <%@ include file="/WEB-INF/jsp/communication/softphone1/include/include.jsp"%> 
+
 <script>
   $(function(){
 	  $.post("Main/softphoneone/getBookXls",{},function(result){
@@ -41,6 +41,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		});	   
   });
+  
+//一键拨打方法
+ function speedDial(obj){
+ 	var number = $(obj).attr("data-num");
+ 	alert(number);
+ 	if(number==null||number==''){
+ 		$.lauvan.MsgShow({msg:'您的号码有误'}); 	
+ 		return;
+ 	}
+ 	callout(number,null);
+ }
 </script>
 </head>
 <body>

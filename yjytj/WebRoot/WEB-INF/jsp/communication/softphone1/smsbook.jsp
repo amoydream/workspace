@@ -5,6 +5,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@ include file="/include/inc.jsp"%>
+<%@ include file="/include/header.jsp"%>
 <script type="text/javascript">
 	var zTree_sms;
 	var setting_sms = {
@@ -59,33 +60,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				onCheck:function(rowIndex,rowData){
 				//在已勾选框添加
 				if(rowData.PHONENUM!=null && rowData.PHONENUM!=''){
-					$("#results_number", parent.document).append("<li id='list_"+rowData.ID+"'><input type='hidden' name='number' value='"+rowData.PHONENUM+"'></input><span>"+rowData.SMSNAME+"</span><span>"+rowData.PHONENUM+"</span></li>");
-					$("#mobilecounts").text(parseInt($("#mobilecounts").text())+1);
-					$("#results_number li").click(function() {
-						$("#results_number li").removeClass("active");
+					$("#results_number", window.parent.document).append("<li id='list_"+rowData.ID+"'><input type='hidden' name='number' value='"+rowData.PHONENUM+"'></input><span>"+rowData.SMSNAME+"</span><span>"+rowData.PHONENUM+"</span></li>");
+					$("#mobilecounts", window.parent.document).text(parseInt($("#mobilecounts", window.parent.document).text())+1);
+					$("#results_number li", window.parent.document).click(function() {
+						$("#results_number li", window.parent.document).removeClass("active");
 						$(this).addClass("active");
 					});
 				}
 			},
 			onUncheck:function(rowIndex,rowData){
 				//取消勾选
-				if($("#results_number #list_"+rowData.ID, parent.document).length>0){				
-				$("#mobilecounts").text(parseInt($("#mobilecounts").text())-1);
-				$("#results_number #list_"+rowData.ID, parent.document).remove();
+				if($("#results_number #list_"+rowData.ID ,window.parent.document).length>0){				
+				$("#mobilecounts", window.parent.document).text(parseInt($("#mobilecounts", window.parent.document).text())-1);
+				$("#results_number #list_"+rowData.ID ,window.parent.document).remove();
 				}
 			},
 			onCheckAll:function(rows){
 				//全选添加
-				var sms = $("#_smsMobile").val();
-				var smsname = $("#_smsMobname").val();
+				var sms = $("#_smsMobile", window.parent.document).val();
+				var smsname = $("#_smsMobname", window.parent.document).val();
 				for(var i=0;i<rows.length;i++){
 					if(rows[i].PHONENUM!=null && rows[i].PHONENUM!=''){
-						$("#results_number", parent.document).append("<li id='list_"+rows[i].ID+"'><input type='hidden' name='number' value='"+rows[i].PHONENUM+"'></input><span>"+rows[i].SMSNAME+"</span><span>"+rows[i].PHONENUM+"</span></li>");
-						$("#mobilecounts").text(parseInt($("#mobilecounts").text())+1);
+						$("#results_number", window.parent.document).append("<li id='list_"+rows[i].ID+"'><input type='hidden' name='number' value='"+rows[i].PHONENUM+"'></input><span>"+rows[i].SMSNAME+"</span><span>"+rows[i].PHONENUM+"</span></li>");
+						$("#mobilecounts", window.parent.document).text(parseInt($("#mobilecounts", window.parent.document).text())+1);
 					}
 				}
-				$("#results_number li").click(function() {
-					$("#results_number li").removeClass("active");
+				$("#results_number li", window.parent.document).click(function() {
+					$("#results_number li", window.parent.document).removeClass("active");
 					$(this).addClass("active");
 				});
 			},
@@ -94,9 +95,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				for(var i=0;i<rows.length;i++){
 					if(rows[i].PHONENUM!=null && rows[i].PHONENUM!=''){
 						//取消勾选
-						$("#mobilecounts").text(parseInt($("#mobilecounts").text())-1);
-						$("#results_number #list_"+rows[i].ID, parent.document).remove();
-						$("#mobilecounts").text(parseInt($("#mobilecounts").text())-1);
+						$("#mobilecounts", window.parent.document).text(parseInt($("#mobilecounts", window.parent.document).text())-1);
+						$("#results_number #list_"+rows[i].ID, window.parent.document).remove();
+						$("#mobilecounts", window.parent.document).text(parseInt($("#mobilecounts", window.parent.document).text())-1);
 					}
 				}
 			}
@@ -115,32 +116,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div data-options="region:'center',border:false">
 <div class="easyui-layout"  data-options="fit:true">
 
-<!-- <div data-options="region:'north',border:false" >
-	
-	    <table  class="sp-table" width="100%" cellpadding="0" cellspacing="0">
-	    		<tr>
-		  		<td class="sp-td1" style="width:100px;" >已勾选手机号码</td>
-		    	<td colspan="3">
-		    		<input type="hidden" id="_smsMobname" name="_smsMobname" />
-		    		<input type="text" id="_smsMobile" name="_smsMobile" data-options="icons:iconClear,editable:false" 
-		    		class="easyui-textbox" style="width: 460px;"/>
-		    	</td>
-		    	</tr>
-	    </table>
-    
-	</div> -->
-
 <div data-options="region:'center',border:false" >
 	<table id="smsMobileGrid" cellspacing="0" cellpadding="0"> 
 				    <thead> 
 				        <tr> 
-				            <th field="SMSNAME" width="150">名称</th> 
-				            <th field="POSITION" width="100"  >岗位</th>
-				            <th field="ADDRESS" width="150"  >地址</th>
-				            <th field="WORKNUM" width="100"  >办公电话</th>
-				            <th field="PHONENUM" width="100" >手机</th>
-				            <th field="HOMENUM" width="100" >住址电话</th>
-				            <th field="FAXNUM" width="100" >传真</th>
+				            <th field="SMSNAME" width="80">名称</th> 
+				            <th field="POSITION" width="80"  >岗位</th>			 
+				            <th field="PHONENUM" width="190" >手机</th>				      
 				        </tr> 
 				    </thead> 
 	</table>

@@ -10,14 +10,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-<title>政府综合应急平台</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="">
-<%@ include file="/include/header.jsp"%>
-<%@ include file="/include/ccms.jsp"%> 
+<%@ include file="/include/softphone.jsp"%> 
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/css/phone1.css"></link>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/icon/css/button-fonts.css"></link>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/css/left1.css"></link>	
@@ -28,27 +26,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <div id="phone-main">
 	<div class="main-content">
-		<!--<div id="the-left">
-			 <div>
-				<span id="left_close" class="glyphicon glyphicon-remove-circle"></span>
-			</div>
-			<div id="left-data">
-			 <div style="overflow:auto;">
-			<div style="margin: 8px 13px;">
-				<select id="input-select" class="input-select">
-				</select>
-				<button type="button" class="btn btn-success" onclick="sureNumber();">确定</button>
-			</div>
-			<div>
-				<iframe src="Main/softphone/getBook" width="308" height="700"
-					frameborder="0" scrolling="auto"></iframe>
-			</div>
-			</div>
-			</div> -->
-			<!--  <ul id="results_list"><li id="result_default">Memory is Empty</li></ul>
-     <a id="result_clear" href="#">Wipe</a> 
-		</div>-->
-
 		<div class="phone">
 			<div class="number">
 				<div id="the-phone">
@@ -105,11 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="glyphicon glyphicon-earphone"></span>拨打
 							</button>
 						</div>
-						<!-- <div id="extra-buttons" class="button-row clearfix">
-							<button id="calc_denom" value="1/x" class="middmaxbutton"><span class="denominator">摘机</span></button>
-							<button id="calc_sqrt" value="&radic;" class="middmaxbutton">挂机</button>
-							<button id="calc_square" class="middmaxbutton" value="x2" >转接</button>
-						</div> -->
+						
 						<div id="extra-buttons" class="button-row clearfix">
 							<button id="phone_tran" value="" class="dial_op mmaxbutton">
 								<span class="glyphicon glyphicon-transfer"></span>转接
@@ -118,61 +91,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="glyphicon glyphicon-record"></span>录音
 							</button>
 						</div>
-						<div class="button-row clearfix">
-							<button id="phone_left_close" value="" class="dial_op mmaxbutton">
-								<span class="glyphicon glyphicon-remove-circle"></span>左关闭
-							</button>
-							<button id="phone_right_close" class="dial_op mmaxbutton" value="">
-								<span class="glyphicon glyphicon-remove-circle"></span>右关闭
-							</button>
-						</div>
 					</div>
 				</div>
 			</div>
-			<!-- <iframe src="https://hi.dearb.me/build" frameborder="0" scrolling="no"></iframe> -->
 		</div>
-		<!-- <div id="the-right" class="from-below" style="visibility: hidden;">
-             <div >
-				<span id="right_close" style="right:-96%;" class="glyphicon glyphicon-remove-circle"></span>
-			</div>
-			<div id="right-data">
-			<div class="right-speed-div">
-			<div class="right-speed-btn-div">
-			<button class="button white">测试员1 15018885666</button>
-			<button class="button white">测试员2 18890999122</button>
-			</div>
-			</div>
-			 <div style="margin:6px 2px;">
-			   <button type="button" class="btn btn-info" onclick="editSpeedDial();">编辑</button>
-			  </div>
-			</div>
-			<div>
-			 <div class="right-number-book">
-			  <span style="font-weight: bold;">通讯录</span>
-			  <span id="right-book" class="glyphicon glyphicon-book"> </span>
-			 <a class="a-text" href="javascript:;">号码总数<span id="mobilecounts" class="span-badge">0</span></a>
-			 </div>
-			 <div class="right-number-area">
-				 <ul id="results_number"> 
-				 </ul>
-			 </div>
-			 <div style="margin:6px 2px;">
-			  <input id="rightsms-input-add" class="input-text" type="text" placeholder="添加发送号码..."></input>
-			  <button type="button" class="btn btn-success" onclick="addNumber();">添加</button>
-			 </div>
-			  <div style="margin:6px 2px;">
-			  <button id="rightsms-btn-delete" class="btn btn-warming" onclick="deleteSelect();">删除选定</button>
-			  <button class="btn btn-danger" onclick="clearAllNumber();">清空</button>
-			  </div>
-			</div>
-			  <div>
-			   <textarea id="rightsms-textarea" class="textarea-text" rows="10"></textarea>
-			   <div style="margin:6px 2px;">
-			   <button class="btn btn-warming" onclick="clearMsg();">清空</button> 
-			   <button type="button" class="btn btn-success" onclick="sendSms();">发送</button>
-			   </div>
-			  </div> 
-			</div>-->
         </div>
 </div>
 <div id="_smsNumberDialog"></div>

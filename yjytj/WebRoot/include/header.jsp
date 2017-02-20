@@ -33,10 +33,10 @@
 <script src="<%=basePath %>js/datagrid-groupview.js"></script>
 <script src="<%=basePath %>js/jsloader.js"></script>
 <script src="<%=basePath %>js/session.js"></script>
-<script src="<%=basePath %>js/html5shiv.min.js"></script>
-<script src="<%=basePath %>js/rightClick.js"></script>
+<%-- <script src="<%=basePath %>js/html5shiv.min.js"></script> --%>
+<%-- <script src="<%=basePath %>js/rightClick.js"></script> --%>
 <!-- mail -->
-<script src="<%=basePath%>js/mail.js"></script>
+<%-- <script src="<%=basePath%>js/mail.js"></script> --%>
 
 <!-- GooFlow js -->
 <script src="<%=basePath%>plugins/gooflow/codebase/GooFlow.js" type="text/javascript"></script>

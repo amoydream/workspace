@@ -531,7 +531,7 @@ function drawGISPic(pointList){
 	</div>
 	</div>
 	<div data-options="region:'south',border:false" class="foot-line accordion-header"
-		style="height: 30px; padding: 5px; text-align: center;">
+		style="height: 35px; padding: 5px; text-align: center;">
 		Copyright @ 2016 <a href="http://www.lauvan.com" target="_blank">广东立沃信息股份有限公司</a>
 	</div>
 	<div data-options="region:'center'" style="border: none;">

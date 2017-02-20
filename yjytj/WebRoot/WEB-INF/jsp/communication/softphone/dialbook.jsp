@@ -61,10 +61,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				onSelect:function(rowIndex,rowData){
 					$("#input-select", parent.document).empty();
 					if(rowData.WORKNUM!=null){						
-					$("#input-select", parent.document).append("<option value='"+rowData.WORKNUM+"'>"+rowData.WORKNUM+"</option>");
+						var wnarr =	rowData.WORKNUM.split(",");
+						for(var i=0;i<wnarr.length;i++){						
+						  $("#input-select", parent.document).append("<option value='"+wnarr[i]+"'>"+wnarr[i]+"</option>");
+						 }
 					}
 					if(rowData.PHONENUM!=null){						
-					$("#input-select", parent.document).append("<option value='"+rowData.PHONENUM+"'>"+rowData.PHONENUM+"</option>");
+						var	pnumarr = rowData.PHONENUM.split(",");
+						for(var j=0;j<pnumarr.length;j++){						
+						$("#input-select", parent.document).append("<option value='"+pnumarr[j]+"'>"+pnumarr[j]+"</option>");
+						  }
 					}
 				}
 	    };

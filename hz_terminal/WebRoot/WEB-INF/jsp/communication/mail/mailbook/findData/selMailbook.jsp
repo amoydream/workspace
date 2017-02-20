@@ -196,13 +196,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    }
 	    $('#selMailbookGrid').datagrid('clearChecked');
     }
-    function check_mail(phone) {
-    	 var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    	 if (filter.test(phone)) return true;
-    	 else {
-    	 return false;
-    	}
-    }
 </script>
 <div class="easyui-layout"  data-options="fit:true">
 <div data-options="region:'west',border:false" style="width: 200px;">

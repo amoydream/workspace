@@ -24,7 +24,7 @@ public class EmailListener implements ServletContextListener {
 			Date time = calendar.getTime();
 			timer = new Timer(true);
 			//5分钟扫一次
-			timer.scheduleAtFixedRate(new EmailTask(), time, 1000 * 60 * 5);
+			timer.scheduleAtFixedRate(new EmailTask(), time, 1000 * 5);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

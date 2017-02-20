@@ -95,14 +95,6 @@ function editSpeedDial(){
 	window.open("Main/softphoneone/getEditXls");
 }
 
-//一键拨打方法
-function speedDial(obj){
-	var number = $(obj).attr("data-num");
-	if(number==null||number==''){
-		$.lauvan.MsgShow({msg:'您的号码有误'}); 	
-		return;
-	}
-	callDial(number);
-}
+
 
 

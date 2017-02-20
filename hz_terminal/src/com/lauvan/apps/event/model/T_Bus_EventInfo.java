@@ -329,7 +329,7 @@ public class T_Bus_EventInfo extends Model<T_Bus_EventInfo> {
 	}
 	
 	public List<Record> getEventList(String ids,String model){
-		String sql = "select ei.ev_name,ei.ev_reportdate,ei.ev_reporttel,(select p1.p_name from t_sys_parameter p1,t_sys_parameter p2 where "
+		String sql = "select ei.ev_name,ei.ev_reportdate,ei.ev_reporttel,ei.ev_basicsituation,ei.ev_guops,ei.ev_shengps,ei.ev_ships,(select p1.p_name from t_sys_parameter p1,t_sys_parameter p2 where "
 				+ "p1.sup_id=p2.id and p1.p_acode=ei.EV_REPORTMODE and p2.p_acode='EVRP') as reportmode,"
 				+ "(select p3.p_name from t_sys_parameter p3,t_sys_parameter p4 where p3.sup_id=p4.id and p3.p_acode=ei.ev_type and p4.p_acode='EVTP') as evtp"
 				+ ",o.or_name,ars.p_name as area from t_bus_eventinfo ei left join t_bus_organ o on ei.organid = o.or_id left join (select a.* from t_sys_parameter a where "  

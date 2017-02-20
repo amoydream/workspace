@@ -1,6 +1,3 @@
-/**
- * 
- */
 
 /***
  * 全局变量 
@@ -62,101 +59,43 @@ jQuery('#phone_hangup').click(function() {
 
 // 通讯录
 jQuery('#phone_books').click(function() {
-  /*$('#the-left').slideToggle(2000);*/
-	/*var emt = "<div style='margin: 8px 13px;'>";
-	emt += "<select id='input-select' class='input-select'>";
-	emt += "</select>";
-	emt += "<button type='button' class='btn btn-success' onclick='sureNumber();'>确定</button>";
-    emt += "</div>";
-    emt += "<div id='left-book-data'>";
-	emt += "<iframe src='Main/softphone/getBook' width='100%' height='700'";
-	emt += "frameborder='0' scrolling='auto'></iframe>";
-    emt += "</div>";
-    $("#left-data").empty();
-    $("#left-data").append(emt);*/
 	showBlock("the-left","通讯录","Main/turn/getBook");
 });
 // 短消息
-jQuery('#phone_sms').click(function() {
-	/*$('#the-left').slideToggle(2000);*/
-	/*var emt = "<div>";	
-	 emt +="<div class='right-number-book'>";
-	 emt +="<img id='right-book' style='margin-right:10px;border:none;' height='20px' width='20px' src='plugins/softphone/images/contacts_book.png'/>";
-	 emt +="<span style='font-weight: bold;'>通讯录</span>";
-	 emt +="<span id='right-book' class='glyphicon glyphicon-book'></span>";
-	 emt +="<a class='a-text' href='javascript:;'>号码总数<span id='mobilecounts' class='span-badge'>0</span></a>";
-	 emt +="</div>";
-	 emt +="<div class='right-number-area'>";
-	 emt +="<ul id='results_number'>";
-	 emt +="</ul>";
-	 emt +="</div>";
-	 emt +="<div style='margin:6px 2px;'>";
-	 emt +="<input id='rightsms-input-add' class='input-text' type='text' placeholder='添加发送号码...'></input>";
-	 emt +="<button type='button' class='btn btn-success' onclick='addNumber();'>添加</button>";
-	 emt +="</div>";
-	 emt +="<div style='margin:6px 2px;'>";
-	 emt +="<button id='rightsms-btn-delete' class='btn btn-warming' onclick='deleteSelect();'>删除选定</button>";
-	 emt +="<button class='btn btn-danger' onclick='clearAllNumber();'>清空</button>";
-	 emt +="</div>";
-	 emt +="</div>";
-	 emt +="<div>";
-	 emt +="<textarea id='rightsms-textarea' class='textarea-text' rows='10'></textarea>";
-	 emt +="<div style='margin:6px 2px;'>";
-	 emt +="<button class='btn btn-warming' onclick='clearMsg();'>清空</button>"; 
-	 emt +="<button type='button' class='btn btn-success' onclick='sendSms();'>发送</button>";
-	 emt +="</div>";
-	 emt +="</div>";
-	$("#right-data").empty();
-	$("#right-data").append(emt);*/
+    var winsms = 0;
+jQuery('#phone_sms').click(function() {	
+	 if(winsms)
+	   {
+	     if(!winsms.closed)
+	    	 winsms.close();
+	   }
+	var url = 'Main/turn/getSms';
+	var name='newwindow1';                    //网页名称，可为空; 
+    var iWidth=951;                          //弹出窗口的宽度; 
+    var iHeight=600;                         //弹出窗口的高度; 
+    //获得窗口的垂直位置 
+    var iTop = (window.screen.availHeight - 30 - iHeight) / 2; 
+    //获得窗口的水平位置 
+    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
+    winsms = window.open(url, name, 'height=' + iHeight + ',innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no'); 
 	//右侧发送短信调用通讯簿
-	showBlock('the-right','短消息','Main/turn/getSms');
+	//window.open('Main/turn/getSms', 'newwindow1', 'height=600, width=951, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
 	jQuery('#right-book').click(function() {
 		smsClick();
 	});
-	//smsClick();
 });
 //一键拨打
-jQuery('#speed_dial').click(function() {
-	/*$("#right-data").empty();
-	$("#right-data").append("一键拨打");*/
-/*	$.post("Main/softphone/getBookXls",{},function(result){
-		if(result.success){
-			var str = "<div id='right-speed-div' class='right-speed-div'>";
-			for(var i=0;i<result.datalist.length;i=i+2){
-                str += "<div class='right-speed-btn-div'>";
-				str += "<button class='sbutton blue' data-num='"+result.datalist[i].number+"' onclick='speedDial(this);'>"+result.datalist[i].name+" "+result.datalist[i].number+"</button>";
-				if(i+1<result.datalist.length){		
-				str += "<button class='sbutton blue' data-num='"+result.datalist[i+1].number+"' onclick='speedDial(this);'>"+result.datalist[i+1].name+" "+result.datalist[i+1].number+"</button>";
-				}
-				str += "</div>";
-			}
-			str += "</div>";
-			str += "<div class='right-speed-edit-div'>";
-			str += "<button type='button' class='btn btn-success' onclick='editSpeedDial();'>编辑</button>";
-			str += "</div>";
-			$("#right-data").empty();
-			$("#right-data").append(str);
-		}
-	});	*/
-	
+jQuery('#speed_dial').click(function() {	
 	showBlock('the-right','一键拨打','Main/turn/getSpeedDial');	
 });
 
 //通讯历史
 jQuery('#phone_record').click(function() {
-	/*var emt = "<iframe src='Main/softphone/getAllDialRecord' width='100%' height='99.5%' style='overflow-y:scroll;'";
-	    emt += "frameborder='0' scrolling='auto'></iframe>";
-	$("#left-data").empty();
-	$("#left-data").append(emt);*/
 	showBlock('the-left','通讯历史','Main/turn/getAllDialRecord');
 });
 
 //录音
 jQuery('#phone_voice').click(function() {
-	/*var emt = "<iframe src='Main/softphone/getYDialRecord' width='100%' height='99.5%' style='overflow-y:scroll;'";
-    emt += "frameborder='0' scrolling='auto'></iframe>";
-	$("#right-data").empty();
-	$("#right-data").append(emt);*/
 	showBlock('the-right','录音','Main/turn/getDialVoice');
 });
 
@@ -167,12 +106,10 @@ jQuery('#phone_clear').click(function() {
 
 //关闭左侧
 jQuery('#phone_left_close').click(function() {
-	/*hideBlock('the-left');*/
 	$('#the-left').dialog('close');
 });
 
 jQuery('#phone_right_close').click(function() {
-	/*hideBlock('the-right');*/
 	$('#the-right').dialog('close');
 });
 
@@ -245,6 +182,7 @@ function keyEvents(){
 
 
 function smsClick(){
+	alert("cheshi");
 	$("#_smsNumberDialog").dialog({
 		title:'联系人',
 		width: 800,
@@ -255,20 +193,22 @@ function smsClick(){
 }
 
 //显示
+ var winshow = 0;
 function showBlock(id,title,url){ 
-	/* $("#"+id).show(); */
-/*	 $("#"+id).css('visibility','visible');*/
-	/* $("#"+id).addClass("from-below"); */
-	/* setTimeout(function(){$("#"+id).addClass("effeckt-show");},300); */
-	 /*var attrArray={
-				title:title,
-				height: 560,
-				width:410,
-				href: url,
-				buttons:[]
-		};
-		$.lauvan.openCustomDialog(id,attrArray,null,null);	*/	
-	 window.open(url, 'newwindow', 'height=600, width=351, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+	if(winshow)
+	{
+	   if(!winshow.closed)
+	       winshow.close();
+	}
+    var name='newwindow';                            //网页名称，可为空; 
+    var iWidth=351;                          //弹出窗口的宽度; 
+    var iHeight=600;                         //弹出窗口的高度; 
+    //获得窗口的垂直位置 
+    var iTop = (window.screen.availHeight - 30 - iHeight) / 2; 
+    //获得窗口的水平位置 
+    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2; 
+    winshow = window.open(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no'); 
+	//window.open(url, 'newwindow', 'height=600, width=351, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
 	 
   }
 

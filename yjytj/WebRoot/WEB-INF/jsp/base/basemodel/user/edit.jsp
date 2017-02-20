@@ -130,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 			<td class="sp-td1">用户性质</td>
 			<td>
-				<select name="t_Sys_User.pcstate" class="easyui-combobox" style="width: 80px;" data-options="editable:false,value:${user.pcstatus}">
+				<select name="t_Sys_User.pcstate" class="easyui-combobox" style="width: 80px;" data-options="editable:false,value:${user.pcstate}">
 					<option value="1">PC用户</option>
 					<option value="2">一体机用户</option>
 					<option value="0">综合用户</option>

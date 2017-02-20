@@ -146,16 +146,19 @@ public class WorkHandoverController extends BaseController {
 				Record evtinfo = evtList.get(i);
 				
 				content.append(i + 1 + "、 ")
-						.append(evtinfo.getStr("or_name") != null ?evtinfo.getStr("or_name") : "未填事发单位")
-						.append("，")
 						.append(DateTimeUtil.formatDate(
 								DateTimeUtil.stringToDate(evtinfo.getStr("ev_reportdate"),"yyyy-MM-dd HH:mm:ss"),"yyyy年MM月dd日 HH时mm分").substring(5))
-						.append("；")		
-						.append(evtinfo.getStr("reportmode")!=null?evtinfo.getStr("reportmode")+"上报"+" ":"未填接报方式")
-						.append(evtinfo.getStr("ev_reporttel")!=null?evtinfo.getStr("ev_reporttel"):"未填报告电话").append("；")
-						.append(evtinfo.getStr("area")!=null?evtinfo.getStr("area")+":":"未填事发地点:")
-						.append(evtinfo.getStr("ev_name")!=null?evtinfo.getStr("ev_name"):"未填事件名称").append("，")
-				        .append(evtinfo.getStr("evtp")!=null?evtinfo.getStr("evtp"):"未填事件类型").append("。")
+						.append("，")
+						.append(evtinfo.getStr("or_name") != null ?evtinfo.getStr("or_name") : "未填事发单位")
+						.append("，")		
+						.append(evtinfo.getStr("reportmode")!=null?evtinfo.getStr("reportmode")+"上报（"+(evtinfo.getStr("ev_reporttel")!=null?evtinfo.getStr("ev_reporttel"):"未填上报号码")+"）":"未填接报方式")
+						.append("，")
+						.append(evtinfo.getStr("ev_name")!=null?evtinfo.getStr("ev_name"):"未填事件名称").append("，")	
+						.append(evtinfo.getStr("ev_basicsituation")!=null?evtinfo.getStr("ev_basicsituation"):"未填事件基本情况")
+				        .append(evtinfo.getStr("ev_guops")!=null?"，国家领导批示："+evtinfo.getStr("ev_guops"):"")
+				        .append(evtinfo.getStr("ev_shengps")!=null?"，省领导批示："+evtinfo.getStr("ev_shengps"):"")
+				        .append(evtinfo.getStr("ev_ships")!=null?"，市领导批示："+evtinfo.getStr("ev_ships"):"")
+				        .append("。")
 				        .append("\n");
 			 }
 		 }

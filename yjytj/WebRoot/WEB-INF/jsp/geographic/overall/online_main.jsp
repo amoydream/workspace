@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     on iOS devices-->
   <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
   <title>地理信息</title>
+ <link rel="stylesheet" type="text/css" href="<%=basePath %>css/buttoncss.css" />
  <link rel="stylesheet" href="<%=basePath %>plugins/gis/css/base.css"/>
  <link rel="stylesheet" href="<%=basePath %>plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
  <style>
@@ -20,7 +21,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  .ztree.legend li span{color:black;}
  .ztree.legend li a.curSelectedNode{background-color: #FFE6B0;}
  </style>
-  
+ <script src="<%=basePath %>plugins/ccms/ccms.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/ccms_console.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_ccms.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_call.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_fax.js" type="text/javascript"></script>
  <script src="<%=basePath %>plugins/gis/core/jquery.js"></script>
  <script src="<%=basePath %>plugins/easyui/jquery.easyui.min.js"></script>
  <script src="<%=basePath %>plugins/ztree/js/jquery.ztree.all-3.5.min.js"></script>

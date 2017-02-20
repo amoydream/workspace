@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 
 import com.jfinal.aop.Clear;
+import com.jfinal.plugin.activerecord.Db;
 import com.lauvan.apps.communication.ccms.model.T_Ccms_Seat;
 import com.lauvan.base.basemodel.controller.BaseController;
 import com.lauvan.base.basemodel.model.T_Sys_Department;
@@ -85,17 +86,16 @@ public class AIOLoginController extends BaseController {
 						}
 						userMap.remove(loginAccount);
 					}
-
+					Number user_id = user.getNumber("user_id");
 					LoginModel loginModel = new LoginModel();
 					loginModel.setUserId(user.getNumber("user_id"));
 					loginModel.setUserAccount(user.getStr("user_account"));
 					loginModel.setUserName(user.getStr("user_name"));
-					Number ugrpNO = user.getNumber("ugrpno");
-					loginModel.setUgrpNO(ugrpNO != null ? ugrpNO.intValue() : 1);
-					Number opLevel = user.getNumber("oplevel");
-					loginModel.setOpLevel(opLevel != null ? opLevel.intValue() : 0);
-					Number callLevel = user.getNumber("calllevel");
-					loginModel.setCallLevel(callLevel != null ? callLevel.intValue() : 5);
+					
+					loginModel.setSeatID(user.getStr("SEATID"));
+					loginModel.setUgrpNO(user.getNumber("UGRPNO").intValue());
+					loginModel.setCallLevel(user.getNumber("CALLLEVEL").intValue());
+					loginModel.setOpLevel(user.getNumber("OPLEVEL").intValue());
 
 					HttpSession session = getSession(true);
 					loginModel.setSessionId(session.getId());
@@ -123,7 +123,17 @@ public class AIOLoginController extends BaseController {
 					loginModel.setIsAdmin(T_Sys_Parameter.dao.isExist(loginModel.getUserAccount(), "GLCS"));// 设置是否是管理员标识
 					loginModel.setIsSuper(T_Sys_User.dao.isSuperAdmin(loginModel.getUserId().toString()));// 设置是否是超级管理标识
 
+					String leaderRole = Db.queryStr("SELECT ROLE_NAME FROM T_SYS_ROLE WHERE ROLE_NAME='值班领导' AND ROLE_ID IN (SELECT ROLE_ID FROM T_SYS_USERROLES WHERE USER_ID = " + user_id + ")");
+					loginModel.setLeader(leaderRole != null);
+
 					List<T_Sys_Role> roleList = T_Sys_Role.dao.getRoles(loginModel.getUserId().toString());
+					//是否有ccms权限
+					T_Sys_Role roleccms = T_Sys_Role.dao.getroleccms(loginModel.getUserId().toString());
+					if(roleccms != null) {
+						setSessionAttr("CCMSRole", true);
+					} else {
+						setSessionAttr("CCMSRole", false);
+					}
 					if(roleList == null || roleList.size() == 0) {
 						setAttr("msg", "您没有权限登录，请联系管理员添加角色！");
 						loginModel.setLimit("");

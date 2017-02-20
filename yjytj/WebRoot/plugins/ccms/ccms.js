@@ -109,12 +109,12 @@ function send(msg) {
 	socket.send(msg);
 }
 
-window.onload = function() {
+$(function() {
 	if($.ccms.seatID !== 'undefined' && $.ccms.seatID !== null) {
 		CtiOpen();
 		HdTimer = setTimeout('startTimer()', 30000);
 	}
-};
+});
 
 window.onbeforeunload = function() {
 	if($.ccms.seatID !== 'undefined' && $.ccms.seatID !== null) {

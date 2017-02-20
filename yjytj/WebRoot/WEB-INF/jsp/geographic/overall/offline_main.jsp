@@ -12,6 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     on iOS devices-->
   <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
   <title>地理信息</title>
+ <link rel="stylesheet" type="text/css" href="<%=basePath %>css/buttoncss.css" />
  <link rel="stylesheet" href="${apiUrl }/dijit/themes/tundra/tundra.css"/>
  <link rel="stylesheet" href="${apiUrl }/esri/css/esri.css"/>
  <link rel="stylesheet" href="<%=basePath %>plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -28,6 +29,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  .esriPopup .contentPane table{border-left:1px solid black;border-top:1px solid black;margin-left:10px;}
  .esriPopup .contentPane td,.esriPopup .contentPane th{padding:2px 5px;border-right:1px solid black;border-bottom:1px solid black;}
  </style>
+ <script src="<%=basePath %>plugins/ccms/ccms.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/ccms_console.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_ccms.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_call.js" type="text/javascript"></script>
+<script src="<%=basePath %>plugins/ccms/lauvan_fax.js" type="text/javascript"></script>
  <script src="${apiUrl }/init.js"></script>
  <script src="<%=basePath %>plugins/gis/core/jquery.js"></script>
  <script src="<%=basePath %>plugins/easyui/jquery.easyui.min.js"></script>
@@ -42,7 +48,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <link rel="stylesheet" type="text/css" href="<%=basePath %>plugins/easyui/customicon/icon.css"/>
 <script src="<%=basePath %>js/datagrid-detailview.js"></script>
 <script src="<%=basePath %>js/session.js"></script>
-
 
 <script>
   	var gisPath="<%=basePath%>plugins/gis";

@@ -16,9 +16,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="">
-<%@ include file="/include/header.jsp"%>
-<%@ include file="/include/ccms.jsp"%> 
+<%@ include file="/include/softphone.jsp"%> 
 <%@ include file="/WEB-INF/jsp/communication/softphone1/include/include.jsp"%> 
+<style type="text/css">
+#the-right {   
+       width:950px;    
+       height:100%;     
+       clear:both;         
+} 
+#right-data { float:left;    width:280px; }     
+#left-data { float:right; height:100%; width:650px;margin-top:3px; }
+.clear { clear:both; }  
+</style>
 </head>
 <body>
 <div id="the-right">
@@ -50,7 +59,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
 	</div>			
    </div>
-   </div>
-    <script type="text/javascript" src="<%=basePath%>plugins/softphone/js/phone1.js"></script>
-    <script type="text/javascript" src="<%=basePath%>plugins/softphone/js/right1.js"></script>
+    <div id="left-data"> 
+        <iframe src="Main/softphoneone/getSmsBook" height="99%" width="600px"
+					frameborder="0" scrolling="auto"></iframe>
+    </div> 
+     <div class="clear"></div>     
+  </div>
+  <!--  <div id="_smsNumberDialog"></div> -->
+    <script type="text/javascript" src="plugins/softphone/js/phone1.js"></script>
+	<script type="text/javascript" src="plugins/softphone/js/left1.js"></script>
+    <script type="text/javascript" src="plugins/softphone/js/right1.js"></script>
 </body>

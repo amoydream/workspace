@@ -34,7 +34,7 @@
 <script src="<%=basePath %>js/jsloader.js"></script>
 <script src="<%=basePath %>js/session.js"></script>
 <script src="<%=basePath %>js/html5shiv.min.js"></script>
-<script src="<%=basePath %>js/rightClick.js"></script>
+<%-- <script src="<%=basePath %>js/rightClick.js"></script> --%>
 <!-- mail -->
 <script src="<%=basePath%>js/mail.js"></script>
 

@@ -16,8 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="">
-<%@ include file="/include/header.jsp"%>
-<%@ include file="/include/ccms.jsp"%> 
+<%@ include file="/include/softphone.jsp"%> 
 <%@ include file="/WEB-INF/jsp/communication/softphone1/include/include.jsp"%> 
 </head>
 <body>

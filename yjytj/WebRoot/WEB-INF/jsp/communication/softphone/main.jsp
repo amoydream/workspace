@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/css/right.css"></link>	
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/css/show.css"></link>		
 <link rel="stylesheet" type="text/css" href="<%=basePath%>plugins/softphone/css/right-button.css"></link>	
-
+<div id="phone-parentid" class="easyui-layout" data-options="fit:true">
 <div id="phone-main">
 	<div class="main-content">
 		<div id="the-left" class="from-below" style="visibility: hidden;">
@@ -30,8 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			</div>
 			</div>
-			<!--  <ul id="results_list"><li id="result_default">Memory is Empty</li></ul>
-     <a id="result_clear" href="#">Wipe</a> -->
 		</div>
 
 		<div class="phone">
@@ -114,60 +112,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 			</div>
-			<!-- <iframe src="https://hi.dearb.me/build" frameborder="0" scrolling="no"></iframe> -->
 		</div>
 		<div id="the-right" class="from-below" style="visibility: hidden;">
-             <div >
-				<span id="right_close" style="right:-96%;" class="glyphicon glyphicon-remove-circle"></span>
-			</div>
-			<div id="right-data">
-			<div class="right-speed-div">
-			<div class="right-speed-btn-div">
-			<button class="button white">测试员1 15018885666</button>
-			<button class="button white">测试员2 18890999122</button>
-			</div>
-			</div>
-			 <div style="margin:6px 2px;">
-			   <button type="button" class="btn btn-info" onclick="editSpeedDial();">编辑</button>
-			  </div>
-			</div>
-			<!-- <div>
-			 <div class="right-number-book">
-			  <span style="font-weight: bold;">通讯录</span>
-			  <span id="right-book" class="glyphicon glyphicon-book"> </span>
-			 <a class="a-text" href="javascript:;">号码总数<span id="mobilecounts" class="span-badge">0</span></a>
-			 </div>
-			 <div class="right-number-area">
-				 <ul id="results_number"> 
-				 </ul>
-			 </div>
-			 <div style="margin:6px 2px;">
-			  <input id="rightsms-input-add" class="input-text" type="text" placeholder="添加发送号码..."></input>
-			  <button type="button" class="btn btn-success" onclick="addNumber();">添加</button>
-			 </div>
-			  <div style="margin:6px 2px;">
-			  <button id="rightsms-btn-delete" class="btn btn-warming" onclick="deleteSelect();">删除选定</button>
-			  <button class="btn btn-danger" onclick="clearAllNumber();">清空</button>
-			  </div>
-			</div>
-			  <div>
-			   <textarea id="rightsms-textarea" class="textarea-text" rows="10"></textarea>
-			   <div style="margin:6px 2px;">
-			   <button class="btn btn-warming" onclick="clearMsg();">清空</button> 
-			   <button type="button" class="btn btn-success" onclick="sendSms();">发送</button>
-			   </div>
-			  </div> -->
+
 			</div>
         </div>
 </div>
 <div id="_smsNumberDialog"></div>
+</div>
 	<script type="text/javascript" src="plugins/softphone/js/phone.js"></script>
 	<script type="text/javascript" src="<%=basePath%>plugins/softphone/js/left.js"></script>
     <script type="text/javascript" src="<%=basePath%>plugins/softphone/js/right.js"></script>
 	<script type="text/javascript">
      $(function(){
     	 
-    	 $("#phone-main").parent().css("background","url('plugins/softphone/images/gaussian-blur-01.jpg')");
+    	 $("#phone-parentid").css("background","url('plugins/softphone/images/gaussian-blur-01.jpg')");
     	 
      });
    </script>

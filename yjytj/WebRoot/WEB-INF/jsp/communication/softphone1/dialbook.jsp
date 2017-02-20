@@ -61,10 +61,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				onSelect:function(rowIndex,rowData){
 					$("#input-select", parent.document).empty();
 					if(rowData.WORKNUM!=null){						
-					$("#input-select", parent.document).append("<option value='"+rowData.WORKNUM+"'>"+rowData.WORKNUM+"</option>");
+						var wnarr =	rowData.WORKNUM.split(",");
+						for(var i=0;i<wnarr.length;i++){						
+						  $("#input-select", parent.document).append("<option value='"+wnarr[i]+"'>"+wnarr[i]+"</option>");
+						 }
 					}
 					if(rowData.PHONENUM!=null){						
-					$("#input-select", parent.document).append("<option value='"+rowData.PHONENUM+"'>"+rowData.PHONENUM+"</option>");
+						var	pnumarr = rowData.PHONENUM.split(",");
+						for(var j=0;j<pnumarr.length;j++){						
+						$("#input-select", parent.document).append("<option value='"+pnumarr[j]+"'>"+pnumarr[j]+"</option>");
+						}
 					}
 				}
 	    };
@@ -81,22 +87,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div data-options="region:'center',border:false">
 <div class="easyui-layout"  data-options="fit:true">
-
-<!-- <div data-options="region:'north',border:false" >
-	
-	    <table  class="sp-table" width="100%" cellpadding="0" cellspacing="0">
-	    		<tr>
-		  		<td class="sp-td1" style="width:100px;" >已勾选手机号码</td>
-		    	<td colspan="3">
-		    		<input type="hidden" id="_smsMobname" name="_smsMobname" />
-		    		<input type="text" id="_smsMobile" name="_smsMobile" data-options="icons:iconClear,editable:false" 
-		    		class="easyui-textbox" style="width: 460px;"/>
-		    	</td>
-		    	</tr>
-	    </table>
-    
-	</div> -->
-
 <div data-options="region:'center',border:false" >
 	<table id="smsMobileGrid" cellspacing="0" cellpadding="0"> 
 				    <thead> 
