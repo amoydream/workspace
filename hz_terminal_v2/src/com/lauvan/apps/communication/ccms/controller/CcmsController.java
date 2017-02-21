@@ -224,7 +224,7 @@ public class CcmsController extends BaseController {
 		return CONTACT_CACHE;
 	}
 
-	public List<V_Contact> setContactCache() {
+	private List<V_Contact> setContactCache() {
 		List<V_Contact> CONTACT_CACHE = V_Contact.dao.find("SELECT * FROM V_CONTACT");
 		setContextAttr("CONTACT_CACHE", CONTACT_CACHE);
 
