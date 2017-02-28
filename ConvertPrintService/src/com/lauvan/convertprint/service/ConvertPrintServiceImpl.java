@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.jws.WebService;
 import javax.print.Doc;
@@ -60,22 +62,9 @@ public class ConvertPrintServiceImpl implements ConvertPrintService {
 			if(sourceFile.toLowerCase().endsWith("." + fileType.toLowerCase())) {
 				return sourceFile;
 			}
-			int lastIndex = sourceFile.lastIndexOf("\\");
-			if(lastIndex == -1) {
-				lastIndex = sourceFile.lastIndexOf("/");
-			}
-			String fileName = sourceFile.substring(lastIndex + 1);
-			destFile = Config.get("destfolder") + "\\" + fileName;
-			destFile = destFile.substring(0, destFile.lastIndexOf("."));
-			File _destFile = new File(destFile + "." + fileType);
-			if(_destFile.exists()) {
-				int i = 0;
-				while(_destFile.exists()) {
-					_destFile = new File(destFile + ++i + "." + fileType);
-				}
-			}
 
-			destFile = _destFile.getAbsolutePath();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			destFile = Config.get("destfolder") + "\\" + sdf.format(new Date()) + "." + fileType;
 		}
 
 		try {
