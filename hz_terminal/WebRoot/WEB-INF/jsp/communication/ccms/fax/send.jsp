@@ -174,7 +174,7 @@
 				<tr>
 					<td class="sp-td1">传真文件</td>
 					<input id="tifFile" name="tifFile" type="hidden"
-						value="${fax.tifFile}" />
+						value="${fax.RECDFILE}" />
 					<c:choose>
 						<c:when test="${empty fax.RECDFILE}">
 							<td colspan="2"><span id="sp_file"> <input

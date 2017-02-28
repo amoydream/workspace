@@ -44,11 +44,11 @@ function ccmsSendFax(fax_numbers, options) {
 					CtiSeatAPI('FAXS', faxOptions.tifFile);
 				}
 			} else {
-				CtiSendFAX(faxQueue[0], faxOptions.tifFile, faxOptions.eventId);
+				CtiSendFAX(faxQueue[0], faxOptions.tifFile, to_number(faxOptions.eventId));
 			}
 		} else {
 			for(var i = 0; i < faxQueue.length; i++) {
-				CtiSendFAX(faxQueue[i], faxOptions.tifFile, faxOptions.eventId);
+				CtiSendFAX(faxQueue[i], faxOptions.tifFile, to_number(faxOptions.eventId));
 			}
 		}
 	}
@@ -138,10 +138,16 @@ function faxrecv_notice(flag) {
 	if(flag) {
 		if($('#faxrecv_notice').length == 0) {
 			$(document.body).append('<audio id="faxrecv_notice" autoplay loop src="sound/faxnotice.mp3"/>');
+			if(notice_timer != null) {
+				clearTimeout(notice_timer);
+			}
+			notice_timer = setTimeout('faxrecv_notice(false)', 15000 * 10);
 		}
 	} else if($('#faxrecv_notice').length != 0) {
 		$('#faxrecv_notice').removeAttr('src');
 		$('#faxrecv_notice').remove();
+		clearTimeout(notice_timer);
+		notice_timer = null;
 	}
 }
 

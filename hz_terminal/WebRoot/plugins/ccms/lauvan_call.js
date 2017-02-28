@@ -20,7 +20,7 @@ function callout(tel_number, eventId, confirmMode) {
 			}
 			confirmed = confirmed || confirm('点击【确定】拨打【' + tel_number + '】');
 			if(confirmed) {
-				CtiSeatCALL(tel_number, eventId);
+				CtiSeatCALL(tel_number, to_number(eventId));
 			}
 		} else {
 			$.lauvan.msg('电话号码【' + tel_number + '】格式错误');

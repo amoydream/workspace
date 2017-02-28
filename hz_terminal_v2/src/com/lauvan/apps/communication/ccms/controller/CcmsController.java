@@ -9,8 +9,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jfinal.kit.JsonKit;
 import com.lauvan.apps.communication.ccms.model.T_Ccms_Setting;
+import com.lauvan.apps.communication.ccms.model.V_Contact;
 import com.lauvan.apps.communication.ccms.util.CcmsUtil;
-import com.lauvan.apps.workcontact.model.V_Contact;
 import com.lauvan.base.basemodel.controller.BaseController;
 import com.lauvan.core.annotation.RouteBind;
 

@@ -80,6 +80,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if('${clickflag}'=='defopen'){
 			addTab(${jsonNode});
 		}
+		//showSMSnotic(1);
+		//setInterval(showSMSnotic,5*1000);//5s刷新一次页面
 	});
 
 	function addAccordion(){

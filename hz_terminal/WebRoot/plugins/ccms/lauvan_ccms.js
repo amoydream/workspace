@@ -2,9 +2,9 @@ function OnCallEnded(ACTM, ACTS, BusinessID, CallFEES, CALLROUTE, CCID, CEID, Ca
                      OutCTime, RecdTime, TalkTime, TotalTime, UGRPNO, UserID, VocRecdFile, WaitTime) {
 	if(FAXST != 0) {
 		if(FAXST == 9999 || FAXST == -9999) {
-			setTimeout('recvResult(' + CallID + ')', 10000);
+			setTimeout('recvResult(' + CallID + ')', 5000);
 		} else if(FAXST == 8888 || FAXST == -8888) {
-			setTimeout('sendResult(' + CallID + ',' + CEID + ')', 10000);
+			setTimeout('sendResult(' + CallID + ',' + CEID + ')', 5000);
 		}
 	}
 }
@@ -66,51 +66,55 @@ function sendResult(CALLID, CEID) {
 	$.post('Main/communication/ccms/fax/faxResult', {
 		CALLID : CALLID
 	}, function(result) {
-		if(result != null) {
-			if($.messenger.msg('FAXS') != null) {
-				var MSG_ID = 'FAXS';
-				var faxs = $('#faxs_' + CEID);
-				faxs.html('传真【' + getOR_NAME(CEID) + '】发送' + (result.FAXST == 'S' ? '成功' : '失败'));
-				faxs.prop('class', 'faxs sent');
-				faxs.show();
-				var visible_faxs = $('#faxs_message').find('.faxs:visible');
-				var hidden_faxs = $('#faxs_message').find('.sending:hidden');
-				if(hidden_faxs.length > 0 && visible_faxs.length >= 10) {
-					$('#faxs_message').find('.sending:hidden:first').show();
-					if($('#faxs_message').find('.sent:visible').length > 0) {
-						$('#faxs_message').find('.sent:visible:first').hide();
-					} else {
-						$('#faxs_message').find('.faxs:visible:first').hide();
+		if($.messenger.msg('FAXS') != null) {
+			var content_html;
+			if(result != null) {
+				content_html = '传真【' + getOR_NAME(CEID) + '】发送' + (result.FAXST == 'S' ? '成功' : '失败');
+			} else {
+				content_html = '传真【' + getOR_NAME(CEID) + '】发送失败';
+			}
+			var MSG_ID = 'FAXS';
+			var faxs = $('#faxs_' + CEID);
+			faxs.html(content_html);
+			faxs.prop('class', 'faxs sent');
+			faxs.show();
+			var visible_faxs = $('#faxs_message').find('.faxs:visible');
+			var hidden_faxs = $('#faxs_message').find('.sending:hidden');
+			if(hidden_faxs.length > 0 && visible_faxs.length >= 10) {
+				$('#faxs_message').find('.sending:hidden:first').show();
+				if($('#faxs_message').find('.sent:visible').length > 0) {
+					$('#faxs_message').find('.sent:visible:first').hide();
+				} else {
+					$('#faxs_message').find('.faxs:visible:first').hide();
+				}
+			}
+			$.messenger.update({
+			    id : MSG_ID,
+			    message : $('#faxs_message').prop('outerHTML')
+			});
+
+			if(faxQueue.length == 0) {
+				$('#faxs_message').show();
+				var faxs = $('#faxs_message').find('.faxs');
+				for(var i = 0; i < faxs.length && i < 10; i++) {
+					$(faxs[i]).show();
+				}
+				if(faxs.length > 10) {
+					for(var i = 10; i < faxs.length; i++) {
+						$(faxs[i]).hide();
 					}
 				}
+				var message = $('#faxs_message').prop('outerHTML');
 				$.messenger.update({
 				    id : MSG_ID,
-				    message : $('#faxs_message').prop('outerHTML')
+				    type : 'faxsent',
+				    message : message,
+				    onClickClose : function() {
+					    $.messenger.destroy(MSG_ID);
+				    }
 				});
 
-				if(faxQueue.length == 0) {
-					$('#faxs_message').show();
-					var faxs = $('#faxs_message').find('.faxs');
-					for(var i = 0; i < faxs.length && i < 10; i++) {
-						$(faxs[i]).show();
-					}
-					if(faxs.length > 10) {
-						for(var i = 10; i < faxs.length; i++) {
-							$(faxs[i]).hide();
-						}
-					}
-					var message = $('#faxs_message').prop('outerHTML');
-					$.messenger.update({
-					    id : MSG_ID,
-					    type : 'faxsent',
-					    message : message,
-					    onClickClose : function() {
-						    $.messenger.destroy(MSG_ID);
-					    }
-					});
-
-					faxOptions.onSendComplete();
-				}
+				faxOptions.onSendComplete();
 			}
 		}
 	});
@@ -135,7 +139,9 @@ function OnSeatLink(BusinessID, CaseNO, CCID, CEID, CallVocNO, SeatCallID, SeatI
 }
 
 function OnCallIN(CCID, CEID, CallID, ChannelNO) {
-	if(CCID == CEID && check_CCMS_SEAT(CCID)) {
+	if(CCID == '' || CEID == '' || CCID == CEID || CCID == $.ccms.seatID || check_CCMS_TEL(CCID)) {
+		return;
+	} else if(CCID == CEID && check_CCMS_SEAT(CCID)) {
 
 	} else if(check_CCMS_SEAT(CEID)) {
 		callin_msg(CCID);
@@ -258,4 +264,12 @@ function check_FAX(fax_number) {
 	}
 
 	return true;
+}
+
+function to_number(str) {
+	if(typeof (str) == 'undefined' || str == null) {
+		return '';
+	}
+
+	return str;
 }

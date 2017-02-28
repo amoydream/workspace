@@ -20,11 +20,11 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.lauvan.apps.communication.ccms.model.T_Fax_Record;
+import com.lauvan.apps.communication.ccms.model.V_Contact;
 import com.lauvan.apps.communication.ccms.model.V_Fax_Record;
 import com.lauvan.apps.communication.ccms.util.CcmsUtil;
 import com.lauvan.apps.communication.ccms.util.ConvertPrintUtil;
 import com.lauvan.apps.event.model.T_Bus_EventInfo;
-import com.lauvan.apps.workcontact.model.V_Contact;
 import com.lauvan.base.main.model.LoginModel;
 import com.lauvan.base.main.model.Paginate;
 import com.lauvan.config.JFWebConfig;
@@ -98,8 +98,8 @@ public class FaxController extends CcmsController {
 				} else if("resend".equals(action)) {
 					String faxFile = CcmsUtil.FAXS_SHPATH + "\\" + fax.getStr("RECDFILE");
 					if(new File(faxFile).exists()) {
-						String tifFile = CcmsUtil.copyFile(faxFile, CcmsUtil.MFAX_SHPATH);
-						setAttr("tifFile", tifFile);
+						String RECDFILE = CcmsUtil.copyFile(faxFile, CcmsUtil.MFAX_SHPATH);
+						fax.set("RECDFILE", RECDFILE);
 					} else {
 						fax.set("RECDFILE", "");
 					}
