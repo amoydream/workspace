@@ -3,6 +3,7 @@ package com.lauvan.convertprint.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,6 +36,7 @@ public class ConvertPrintServiceImpl implements ConvertPrintService {
 	private static DocFlavor				docFlavor		= DocFlavor.INPUT_STREAM.AUTOSENSE;
 	private static PrintRequestAttributeSet	attributeSet	= new HashPrintRequestAttributeSet();
 	private static PrintService				printService	= null;
+	private static final SimpleDateFormat	sdf				= new SimpleDateFormat("yyyyMMddHHmmss");
 
 	static {
 		PrintService[] psList = PrintServiceLookup.lookupPrintServices(docFlavor, attributeSet);
@@ -59,12 +61,11 @@ public class ConvertPrintServiceImpl implements ConvertPrintService {
 			if(fileType == null) {
 				fileType = "TIF";
 			}
-			if(sourceFile.toLowerCase().endsWith("." + fileType.toLowerCase())) {
-				return sourceFile;
-			}
-
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			destFile = Config.get("destfolder") + "\\" + sdf.format(new Date()) + "." + fileType;
+			if(sourceFile.toLowerCase().endsWith("." + fileType.toLowerCase())) {
+				copyFile(sourceFile, destFile);
+				return destFile;
+			}
 		}
 
 		try {
@@ -183,6 +184,29 @@ public class ConvertPrintServiceImpl implements ConvertPrintService {
 						e.printStackTrace();
 					}
 				}
+			}
+		}
+	}
+
+	private static void copyFile(String sourceFile, String fileType) {
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		try {
+			fis = new FileInputStream(new File(sourceFile));
+			fos = new FileOutputStream(new File(destFile));
+			byte[] byteArr = new byte[1024];
+			while(fis.read(byteArr) != -1) {
+				fos.write(byteArr);
+			}
+			fos.flush();
+		} catch(Exception e) {
+			log.error(e);
+		} finally {
+			try {
+				fis.close();
+				fos.close();
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

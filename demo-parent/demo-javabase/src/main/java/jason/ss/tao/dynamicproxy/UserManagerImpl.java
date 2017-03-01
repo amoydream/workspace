@@ -15,7 +15,7 @@ public class UserManagerImpl implements UserManager {
 
 	public static void main(String[] args) {
 		UserManager userMgr = new UserManagerImpl();
-		UserManager userMgrProxy = (UserManager)Proxy.newProxyInstance(userMgr.getClass().getClassLoader(), userMgr.getClass().getInterfaces(), new SecurityHandler(userMgr));
+		UserManager userMgrProxy = new UserManagerProxy().getProxy(userMgr);
 		userMgrProxy.addUser("Jason");
 		userMgrProxy.deleteUser("Jason");
 	}

@@ -109,12 +109,12 @@ function send(msg) {
 	socket.send(msg);
 }
 
-window.onload = function() {
+$(function() {
 	if($.ccms.seatID !== 'undefined' && $.ccms.seatID !== null) {
 		CtiOpen();
 		HdTimer = setTimeout('startTimer()', 30000);
 	}
-};
+});
 
 window.onbeforeunload = function() {
 	if($.ccms.seatID !== 'undefined' && $.ccms.seatID !== null) {
@@ -161,16 +161,10 @@ function CtiSeatLogOut() {
 }
 
 function CtiSeatCALL(CEID, BusinessID) {
-	if(typeof (BusinessID) !== 'number') {
-		BusinessID = '';
-	}
 	send('SEATCALL;' + $.ccms.seatID + ';' + CEID + ';;' + BusinessID + ';---');
 }
 
 function CtiSendFAX(CEID, tifFile, BusinessID) {
-	if(typeof (BusinessID) !== 'number') {
-		BusinessID = '';
-	}
 	send('SENDFAXCALL;' + CEID + ';' + tifFile + ';;' + BusinessID + ';---');
 }
 
@@ -211,9 +205,6 @@ function CtiSeatMeeting() {
 }
 
 function CtiMeetingCALL(MemberTels, CallerID, BussinessID) {
-	if(typeof (BussinessID) !== 'number') {
-		BussinessID = '';
-	}
 	send('CTIMEETCALL;' + $.ccms.seatID + ';' + MemberTels + ';' + CallerID + ';' + BussinessID + ';;;---')
 }
 

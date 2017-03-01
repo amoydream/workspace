@@ -51,7 +51,7 @@ public class CcmsUtil {
 	public static String copyFile(String sourceFile, String targetFile) {
 		if(new File(targetFile).isDirectory()) {
 			Calendar c = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			targetFile += "\\" + sdf.format(c.getTime()) + ".tif";
 		}
 		FileInputStream fis = null;

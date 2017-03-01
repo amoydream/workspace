@@ -150,6 +150,12 @@ public class FaxController extends CcmsController {
 				rec.set("READ", "Y");
 				rec.update();
 			}
+
+			String FAX_NUMBER = fax.getStr("FAX_NUMBER");
+			V_Contact contact = getContact(FAX_NUMBER);
+			if(contact != null) {
+				fax.set("OR_NAME", contact.get("OR_NAME"));
+			}
 		}
 
 		setAttr("fax", fax);
@@ -405,22 +411,18 @@ public class FaxController extends CcmsController {
 		boolean success = true;
 		String msg = "上传成功";
 		if(faxFile.exists()) {
-			if(!faxFile.getAbsolutePath().toLowerCase().endsWith(".tif")) {
-				try {
-					tifFile = ConvertPrintUtil.convert(faxFile.getAbsolutePath());
-					if(tifFile == null) {
-						success = false;
-						msg = "文件【" + faxFile + "】转换失败";
-					}
-				} catch(Exception e) {
+			try {
+				tifFile = ConvertPrintUtil.convert(faxFile.getAbsolutePath());
+				if(tifFile == null) {
 					success = false;
-					msg = "文件【" + faxFile + "】转换失败: " + e.getMessage();
-					e.printStackTrace();
-				} finally {
-					faxFile.delete();
+					msg = "文件【" + faxFile + "】转换失败";
 				}
-			} else {
-				tifFile = faxFile.getAbsolutePath();
+			} catch(Exception e) {
+				success = false;
+				msg = "文件【" + faxFile + "】转换失败: " + e.getMessage();
+				e.printStackTrace();
+			} finally {
+				faxFile.delete();
 			}
 		} else {
 			success = false;
