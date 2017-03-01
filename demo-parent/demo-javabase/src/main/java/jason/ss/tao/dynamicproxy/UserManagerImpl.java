@@ -1,7 +1,5 @@
 package jason.ss.tao.dynamicproxy;
 
-import java.lang.reflect.Proxy;
-
 public class UserManagerImpl implements UserManager {
 	@Override
 	public void addUser(String user) {
